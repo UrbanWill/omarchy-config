@@ -27,3 +27,15 @@
 -- o.bind("SUPER + SHIFT + S", nil, "omarchy-capture-screenshot")
 -- o.bind("SUPER + H", nil, "voxtype record toggle")
 -- o.bind("SUPER + PERIOD", nil, "omarchy-shell shell toggle omarchy.emojis")
+
+-- Window resizing on ; and / (replaces SUPER + -/= and their SHIFT variants)
+hl.unbind("SUPER + code:20")
+hl.unbind("SUPER + code:21")
+hl.unbind("SUPER + SHIFT + code:20")
+hl.unbind("SUPER + SHIFT + code:21")
+hl.unbind("SUPER + SLASH") -- was: Monitor scaling up
+hl.unbind("SUPER + SHIFT + SLASH") -- was: Passwords
+o.bind("SUPER + SEMICOLON", "Widen window", hl.dsp.window.resize({ x = 100, y = 0, relative = true }))
+o.bind("SUPER + SLASH", "Narrow window", hl.dsp.window.resize({ x = -100, y = 0, relative = true }))
+o.bind("SUPER + SHIFT + SEMICOLON", "Make window taller", hl.dsp.window.resize({ x = 0, y = 100, relative = true }))
+o.bind("SUPER + SHIFT + SLASH", "Make window shorter", hl.dsp.window.resize({ x = 0, y = -100, relative = true }))
