@@ -39,3 +39,6 @@ o.bind("SUPER + SEMICOLON", "Widen window", hl.dsp.window.resize({ x = 100, y = 
 o.bind("SUPER + SLASH", "Narrow window", hl.dsp.window.resize({ x = -100, y = 0, relative = true }))
 o.bind("SUPER + SHIFT + SEMICOLON", "Make window taller", hl.dsp.window.resize({ x = 0, y = 100, relative = true }))
 o.bind("SUPER + SHIFT + SLASH", "Make window shorter", hl.dsp.window.resize({ x = 0, y = -100, relative = true }))
+
+-- CTRL + A/E/U/K line editing and SUPER + A select all in every app
+require("hypr.line-editing")
