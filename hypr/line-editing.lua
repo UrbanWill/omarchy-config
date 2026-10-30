@@ -2,6 +2,7 @@
 --   CTRL + A / E   jump to start / end of line
 --   CTRL + U / K   delete everything before / after the cursor
 --   SUPER + A      select all (in terminals: copy the whole scrollback)
+--   SUPER + Z      undo, with SHIFT redo
 --
 -- Terminals already do the line actions with these exact keys, so they get the
 -- original chord back. Everything else gets the equivalent Home/End sequence.
@@ -53,3 +54,8 @@ o.bind("CTRL + K", "Delete to end of line", per_app({ { "CTRL", "K" } }, { { "SH
 
 -- foot binds SUPER + A to piping its scrollback into wl-copy (see foot.ini)
 o.bind("SUPER + A", "Select all", per_app({ { "SUPER", "A" } }, { { "CTRL", "A" } }))
+
+-- CTRL + Z would suspend the running program in a terminal, so terminals get
+-- the shell's own undo (CTRL + _). The shell has no redo.
+o.bind("SUPER + Z", "Undo", per_app({ { "CTRL SHIFT", "minus" } }, { { "CTRL", "Z" } }))
+o.bind("SUPER + SHIFT + Z", "Redo", per_app({}, { { "CTRL SHIFT", "Z" } }))

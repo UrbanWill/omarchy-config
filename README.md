@@ -62,6 +62,18 @@ After reverting a Hyprland change, run `hyprctl reload && hyprctl configerrors`.
 - **Known quirks:** at the start or end of a line, `CTRL + U` / `CTRL + K` delete the line break and join lines. The foot `SUPER + A` binding only applies to terminal windows opened after the change.
 - **Check:** in a text field, put the cursor mid-line and try each key.
 
+### Undo and redo on `SUPER + Z`
+- **Files:** `hypr/line-editing.lua`
+- **What:** `SUPER + Z` undoes, `SUPER + SHIFT + Z` redoes, matching Omarchy's `SUPER + C` / `V` / `X`.
+
+  | Keys | Sent to GUI apps | Sent to terminals |
+  |---|---|---|
+  | `SUPER + Z` | `CTRL + Z` | `CTRL + _` (shell undo) |
+  | `SUPER + SHIFT + Z` | `CTRL + SHIFT + Z` | nothing |
+
+- **Why terminals differ:** `CTRL + Z` in a terminal suspends the running program. The shell has no redo.
+- **Known quirks:** apps that only accept `CTRL + Y` for redo won't redo. Inside Neovim, `SUPER + Z` does nothing; use `u` / `CTRL + R`.
+
 ### Monitor scale written by Omarchy
 - **Files:** `hypr/monitors.lua`
 - **What:** Omarchy's scaling shortcut set the catch-all scale to 1.25 and `GDK_SCALE` to 1. The two Dells keep their explicit scale 1; `GDK_SCALE` 1 renders GTK apps at normal size.
