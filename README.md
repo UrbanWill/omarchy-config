@@ -1,6 +1,6 @@
 # Omarchy config
 
-My customizations on top of [Omarchy](https://omarchy.org/): Hyprland, the Omarchy shell and the foot terminal.
+My customizations on top of [Omarchy](https://omarchy.org/): Hyprland, the Omarchy shell, the Ghostty and foot terminals, zsh and the Starship prompt.
 
 The git history starts with the config as Omarchy installed it, then adds one commit per customization, so each one can be inspected or reverted on its own.
 
@@ -55,7 +55,7 @@ After reverting a Hyprland change, run `hyprctl reload && hyprctl configerrors`.
   | `CTRL + E` | end of line | `End` | `CTRL + E` |
   | `CTRL + U` | delete before cursor | `SHIFT + Home`, `BackSpace` | `CTRL + U` |
   | `CTRL + K` | delete after cursor | `SHIFT + End`, `Delete` | `CTRL + K` |
-  | `SUPER + A` | select all | `CTRL + A` | `SUPER + A` → foot copies its scrollback |
+  | `SUPER + A` | select all | `CTRL + A` | `SUPER + A` → Ghostty selects all, foot copies its scrollback |
 
   Terminals are detected with Omarchy's `terminal` window tag. Keys are sent with explicit modifiers so the physically held `CTRL` doesn't leak into them.
 - **Overrides:** in every GUI app, `CTRL + A` (select all, now `SUPER + A`), `CTRL + K` (link insertion, command palettes, VS Code and Zed `CTRL + K` chords), `CTRL + U` (underline, view source) and `CTRL + E` (center align, browser search).
@@ -76,9 +76,17 @@ After reverting a Hyprland change, run `hyprctl reload && hyprctl configerrors`.
 
 ### Ghostty as the terminal
 - **Files:** `xdg-terminals.list`, `ghostty/config`
-- **What:** installed with `omarchy install terminal ghostty`, which makes it the terminal for `SUPER + Return` and every terminal Omarchy opens. `ghostty/config` is still Omarchy's default. foot stays installed, and its config is kept.
-- **Shell:** zsh via `omarchy-zsh`. `~/.zshrc` is outside `~/.config`, so this repo doesn't track it.
+- **What:** installed with `omarchy install terminal ghostty`, which makes it the terminal for `SUPER + Return` and every terminal Omarchy opens. `ghostty/config` is Omarchy's default plus `SUPER + A` to select all (then `SUPER + C` copies). foot stays installed, and its config is kept.
 - **Check:** `SUPER + Return`, then `hyprctl activewindow | grep class` shows `com.mitchellh.ghostty`.
+
+### zsh
+- **Files:** `zsh/zshrc`
+- **What:** zsh from `omarchy-zsh` (`omarchy-setup-zsh`), plus:
+  - gray autosuggestions from history (`zsh-autosuggestions` package), `→` accepts
+  - `CTRL + U` deletes only before the cursor, like bash and macOS (zsh's default deletes the whole line)
+  - `~/.local/bin` on `PATH`
+- **How it's tracked:** `~/.zshrc` is a symlink to `~/.config/zsh/zshrc`, the one exception to the no-symlinks rule. zsh only reads `~/.zshrc`, and installers that append to it write through the symlink into the tracked file, so their changes show up in `git status`. If a tool replaces the symlink with a regular file, `ls -la ~/.zshrc` shows it; merge the new lines into `zsh/zshrc` and recreate the link with `ln -sf ~/.config/zsh/zshrc ~/.zshrc`.
+- **Check:** in a new terminal, `echo $0` prints `zsh`.
 
 ### Git details and language versions in the prompt
 - **Files:** `starship.toml`
@@ -99,3 +107,4 @@ After reverting a Hyprland change, run `hyprctl reload && hyprctl configerrors`.
 2. `omarchy menu keybindings --print | grep -E 'SEMICOLON|SLASH|CTRL \+ [AEKU] |SUPER \+ A '` — custom bindings still win.
 3. `diff /usr/share/omarchy/shell/plugins/bar/widgets/Workspaces.qml ~/.config/omarchy/plugins/urban.workspaces/Workspaces.qml` — pick up upstream fixes to the widget.
 4. `git status` — check whether the update rewrote any tracked file.
+5. `ls -la ~/.zshrc` — still a symlink to `~/.config/zsh/zshrc`.
