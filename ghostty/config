@@ -39,3 +39,6 @@ mouse-scroll-multiplier = 0.95
 
 # Fix general slowness on hyprland (https://github.com/ghostty-org/ghostty/discussions/3224)
 async-backend = epoll
+
+# SUPER + A (sent by ~/.config/hypr/line-editing.lua) selects all; SUPER + C then copies it
+keybind = super+a=select_all
