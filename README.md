@@ -74,6 +74,15 @@ After reverting a Hyprland change, run `hyprctl reload && hyprctl configerrors`.
 - **Why terminals differ:** `CTRL + Z` in a terminal suspends the running program. The shell has no redo.
 - **Known quirks:** apps that only accept `CTRL + Y` for redo won't redo. Inside Neovim, `SUPER + Z` does nothing; use `u` / `CTRL + R`.
 
+### Git details and language versions in the prompt
+- **Files:** `starship.toml`
+- **What:** the Starship prompt also shows:
+  - git stash, staged, renamed and deleted counts (`≡2 +1 »1 ✘1`), next to Omarchy's ahead/behind, modified and untracked markers
+  - the current git operation, e.g. `(MERGING)` or `(REBASING 2/5)`
+  - Node, Python, Rust, Ruby, Java and Go versions, only inside projects that use them
+- **Trade-offs:** `omarchy refresh` on this file resets it to Omarchy's default.
+- **Check:** `cd` into a git repo with a `package.json` and look at the prompt.
+
 ### Monitor scale written by Omarchy
 - **Files:** `hypr/monitors.lua`
 - **What:** Omarchy's scaling shortcut set the catch-all scale to 1.25 and `GDK_SCALE` to 1. The two Dells keep their explicit scale 1; `GDK_SCALE` 1 renders GTK apps at normal size.

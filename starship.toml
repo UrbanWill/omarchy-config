@@ -1,6 +1,6 @@
 add_newline = true
 command_timeout = 200
-format = "[$directory$git_branch$git_status]($style)$character"
+format = "[$directory$git_branch$git_state$git_status]($style)$nodejs$python$rust$ruby$java$golang$character"
 
 [character]
 error_symbol = "[✗](bold cyan)"
@@ -26,7 +26,43 @@ conflicted = " "
 up_to_date = " "
 untracked  = "? "
 modified   = " "
-stashed    = ""
-staged     = ""
-renamed    = ""
-deleted    = ""
+stashed    = "≡${count} "
+staged     = "+${count} "
+renamed    = "»${count} "
+deleted    = "✘${count} "
+
+# Shown during a rebase, merge, cherry-pick or bisect, e.g. (REBASING 2/5)
+[git_state]
+format = '[\($state( $progress_current/$progress_total)\)]($style) '
+style = "bold yellow"
+
+# Language versions, shown only inside projects that use them
+[nodejs]
+format = "[$symbol$version]($style) "
+symbol = " "
+style = "green"
+
+[python]
+format = "[$symbol$version( \\($virtualenv\\))]($style) "
+symbol = " "
+style = "yellow"
+
+[rust]
+format = "[$symbol$version]($style) "
+symbol = " "
+style = "red"
+
+[ruby]
+format = "[$symbol$version]($style) "
+symbol = " "
+style = "red"
+
+[java]
+format = "[$symbol$version]($style) "
+symbol = " "
+style = "red"
+
+[golang]
+format = "[$symbol$version]($style) "
+symbol = " "
+style = "cyan"
