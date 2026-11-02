@@ -116,7 +116,7 @@ hyprctl reload && hyprctl configerrors
 
 ### Ghostty as the terminal
 - **Files:** `xdg-terminals.list`, `ghostty/config`
-- **What:** installed with `omarchy install terminal ghostty`, which makes it the terminal for `SUPER + Return` and every terminal Omarchy opens. `ghostty/config` is Omarchy's default plus `SUPER + A` to select all (then `SUPER + C` copies). foot stays installed, and its config is kept.
+- **What:** installed with `omarchy install terminal ghostty`, which makes it the terminal for `SUPER + Return` and every terminal Omarchy opens. `ghostty/config` is Omarchy's default plus `SUPER + A` to select all (then `SUPER + C` copies) and a 96% opaque background (`background-opacity`). foot stays installed, and its config is kept.
 - **Check:** `SUPER + Return`, then `hyprctl activewindow | grep class` shows `com.mitchellh.ghostty`.
 
 ### zsh

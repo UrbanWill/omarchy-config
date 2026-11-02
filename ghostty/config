@@ -42,3 +42,6 @@ async-backend = epoll
 
 # SUPER + A (sent by ~/.config/hypr/line-editing.lua) selects all; SUPER + C then copies it
 keybind = super+a=select_all
+
+# Slightly see-through background; text stays solid
+background-opacity = 0.96
