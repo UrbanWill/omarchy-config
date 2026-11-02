@@ -48,3 +48,10 @@
 --     column_width = 0.97,
 --   },
 -- })
+
+-- Slightly rounded window corners (Omarchy's default is 0, square).
+hl.config({
+  decoration = {
+    rounding = 6,
+  },
+})

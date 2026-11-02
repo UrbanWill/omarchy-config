@@ -97,6 +97,10 @@ After reverting a Hyprland change, run `hyprctl reload && hyprctl configerrors`.
 - **Trade-offs:** `omarchy refresh` on this file resets it to Omarchy's default.
 - **Check:** `cd` into a git repo with a `package.json` and look at the prompt.
 
+### Slightly rounded window corners
+- **Files:** `hypr/looknfeel.lua`
+- **What:** `decoration.rounding = 6` (Omarchy's default is 0, square corners). Bigger numbers are rounder; Omarchy's popped windows use 8.
+
 ### Monitor scale written by Omarchy
 - **Files:** `hypr/monitors.lua`
 - **What:** Omarchy's scaling shortcut set the catch-all scale to 1.25 and `GDK_SCALE` to 1. The two Dells keep their explicit scale 1; `GDK_SCALE` 1 renders GTK apps at normal size.
