@@ -74,6 +74,12 @@ After reverting a Hyprland change, run `hyprctl reload && hyprctl configerrors`.
 - **Why terminals differ:** `CTRL + Z` in a terminal suspends the running program. The shell has no redo.
 - **Known quirks:** apps that only accept `CTRL + Y` for redo won't redo. Inside Neovim, `SUPER + Z` does nothing; use `u` / `CTRL + R`.
 
+### Ghostty as the terminal
+- **Files:** `xdg-terminals.list`, `ghostty/config`
+- **What:** installed with `omarchy install terminal ghostty`, which makes it the terminal for `SUPER + Return` and every terminal Omarchy opens. `ghostty/config` is still Omarchy's default. foot stays installed, and its config is kept.
+- **Shell:** zsh via `omarchy-zsh`. `~/.zshrc` is outside `~/.config`, so this repo doesn't track it.
+- **Check:** `SUPER + Return`, then `hyprctl activewindow | grep class` shows `com.mitchellh.ghostty`.
+
 ### Git details and language versions in the prompt
 - **Files:** `starship.toml`
 - **What:** the Starship prompt also shows:
