@@ -14,7 +14,7 @@
 # alias cx="claude --permission-mode=plan --allow-dangerously-skip-permissions"
 
 # Put ~/.local/bin on PATH (was in ~/.zshrc before omarchy-setup-zsh replaced it)
-. "$HOME/.local/share/../bin/env"
+[[ -f "$HOME/.local/bin/env" ]] && . "$HOME/.local/bin/env"
 
 # Gray suggestions from history; → accepts
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
