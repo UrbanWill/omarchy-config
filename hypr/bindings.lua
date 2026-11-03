@@ -42,3 +42,10 @@ o.bind("SUPER + SHIFT + SLASH", "Make window shorter", hl.dsp.window.resize({ x 
 
 -- CTRL + A/E/U/K line editing and SUPER + A select all in every app
 require("hypr.line-editing")
+
+-- Dictation keys from before Alt + Space and Right Alt became the defaults.
+-- Remove these lines to give the keys back to applications.
+if o.dictation_installed and o.dictation_installed() then
+  o.bind("SUPER + CTRL + X", "Toggle dictation", "omarchy-dictation toggle")
+  o.bind_hold("F9", "Start dictation (push-to-talk)", "omarchy-dictation start", "Stop dictation (push-to-talk)", "omarchy-dictation stop")
+end
