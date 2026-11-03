@@ -52,7 +52,9 @@ o.bind("CTRL + E", "Jump to end of line", per_app({ { "CTRL", "E" } }, { { "", "
 o.bind("CTRL + U", "Delete to start of line", per_app({ { "CTRL", "U" } }, { { "SHIFT", "Home" }, { "", "BackSpace" } }))
 o.bind("CTRL + K", "Delete to end of line", per_app({ { "CTRL", "K" } }, { { "SHIFT", "End" }, { "", "Delete" } }))
 
--- foot binds SUPER + A to piping its scrollback into wl-copy (see foot.ini)
+-- foot binds SUPER + A to piping its scrollback into wl-copy (see foot.ini).
+-- Newer Omarchy binds SUPER + A to select all itself; unbind it so only this one fires.
+hl.unbind("SUPER + A")
 o.bind("SUPER + A", "Select all", per_app({ { "SUPER", "A" } }, { { "CTRL", "A" } }))
 
 -- CTRL + Z would suspend the running program in a terminal, so terminals get
