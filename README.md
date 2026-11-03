@@ -21,6 +21,45 @@ git revert <commit>             # undo one customization
 
 After reverting a Hyprland change, run `hyprctl reload && hyprctl configerrors`. After reverting a shell plugin change, run `omarchy restart shell`.
 
+## Several machines
+
+Every machine uses the same `main` branch. Commit on one, `git push`, then `git pull` on the other, followed by `hyprctl reload && hyprctl configerrors` and `omarchy restart terminal`.
+
+Files that only fit one machine's hardware stay tracked but are marked `skip-worktree` on the machines where they don't fit. Git then leaves the local copy alone and never shows it in `git status`:
+
+| File | Why it's per machine |
+|---|---|
+| `hypr/monitors.lua` | the dual Dell layout and scale; other machines set their displays from the bar's monitor panel |
+| `hypr/hyprland.lua` | VM-only Hyprland quirks |
+| `omarchy/shell.json` | bar layout (the per-monitor workspace widget only matters with two screens) and idle timers |
+
+```bash
+git ls-files -v | grep '^S'                       # files kept local on this machine
+git update-index --skip-worktree <file>           # keep a file local
+git update-index --no-skip-worktree <file>        # sync it again
+```
+
+If a `git pull` changes a skipped file, git stops with "would be overwritten". Run `--no-skip-worktree` on it, `git stash`, pull, merge by hand, then skip it again.
+
+### Setting up another machine
+
+Back up `~/.config` first: `git checkout` overwrites the files it writes.
+
+```bash
+git clone https://github.com/UrbanWill/omarchy-config.git ~/Projects/omarchy-config
+cd ~/Projects/omarchy-config
+git config core.worktree ~/.config
+git config status.showUntrackedFiles no
+git update-index --skip-worktree hypr/monitors.lua hypr/hyprland.lua omarchy/shell.json
+find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +   # drop the clone's own copies
+git checkout -- .                                 # write the shared files into ~/.config
+omarchy install terminal ghostty
+omarchy pkg add omarchy-zsh zsh-autosuggestions mosh
+omarchy-setup-zsh
+ln -sf ~/.config/zsh/zshrc ~/.zshrc
+hyprctl reload && hyprctl configerrors
+```
+
 ## Customizations
 
 ### Dual monitors with split workspaces
