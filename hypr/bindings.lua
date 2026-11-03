@@ -45,7 +45,10 @@ require("hypr.line-editing")
 
 -- Dictation keys from before Alt + Space and Right Alt became the defaults.
 -- Remove these lines to give the keys back to applications.
+-- Unbind first: older Omarchy binds these keys itself, and a second bind would fire twice.
 if o.dictation_installed and o.dictation_installed() then
+  hl.unbind("SUPER + CTRL + X")
+  hl.unbind("F9")
   o.bind("SUPER + CTRL + X", "Toggle dictation", "omarchy-dictation toggle")
   o.bind_hold("F9", "Start dictation (push-to-talk)", "omarchy-dictation start", "Stop dictation (push-to-talk)", "omarchy-dictation stop")
 end
