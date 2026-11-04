@@ -85,7 +85,7 @@ hyprctl reload && hyprctl configerrors
 - **What:** `idle.lock` is 900 seconds (was 300). Screensaver unchanged at 150 seconds.
 
 ### Mac-style line editing in every app
-- **Files:** `hypr/line-editing.lua`, `hypr/bindings.lua` (loads it), `foot/foot.ini`
+- **Files:** `hypr/line-editing.lua`, `hypr/bindings.lua` (loads it), `foot/foot.ini`, `zsh/zshrc` (`CTRL + Backspace` and `CTRL + Delete` word deletion)
 - **What:**
 
   | Keys | Action | Sent to GUI apps | Sent to terminals |
@@ -94,6 +94,7 @@ hyprctl reload && hyprctl configerrors
   | `CTRL + E` | end of line | `End` | `CTRL + E` |
   | `CTRL + U` | delete before cursor | `SHIFT + Home`, `BackSpace` | `CTRL + U` |
   | `CTRL + K` | delete after cursor | `SHIFT + End`, `Delete` | `CTRL + K` |
+  | `CTRL + SHIFT + BackSpace` | delete word after cursor | `CTRL + Delete` | `CTRL + Delete` → zsh `kill-word` |
   | `SUPER + A` | select all | `CTRL + A` | `SUPER + A` → Ghostty selects all, foot copies its scrollback |
 
   Terminals are detected with Omarchy's `terminal` window tag. Keys are sent with explicit modifiers so the physically held `CTRL` doesn't leak into them.

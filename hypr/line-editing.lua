@@ -1,6 +1,7 @@
 -- Mac-style line editing in every app:
 --   CTRL + A / E   jump to start / end of line
 --   CTRL + U / K   delete everything before / after the cursor
+--   CTRL + SHIFT + Backspace   delete the word after the cursor
 --   SUPER + A      select all (in terminals: copy the whole scrollback)
 --   SUPER + Z      undo, with SHIFT redo
 --
@@ -51,6 +52,12 @@ o.bind("CTRL + A", "Jump to start of line", per_app({ { "CTRL", "A" } }, { { "",
 o.bind("CTRL + E", "Jump to end of line", per_app({ { "CTRL", "E" } }, { { "", "End" } }))
 o.bind("CTRL + U", "Delete to start of line", per_app({ { "CTRL", "U" } }, { { "SHIFT", "Home" }, { "", "BackSpace" } }))
 o.bind("CTRL + K", "Delete to end of line", per_app({ { "CTRL", "K" } }, { { "SHIFT", "End" }, { "", "Delete" } }))
+
+-- Every app gets CTRL + Delete, which deletes the next word in GUI apps and VS
+-- Code. Terminals send it as ^[[3;5~, which zshrc binds to kill-word.
+o.bind("CTRL + SHIFT + BACKSPACE", "Delete word after cursor", function()
+  send_keys({ { "CTRL", "Delete" } })
+end)
 
 -- foot binds SUPER + A to piping its scrollback into wl-copy (see foot.ini).
 -- Newer Omarchy binds SUPER + A to select all itself; unbind it so only this one fires.
