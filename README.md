@@ -85,9 +85,14 @@ hyprctl reload && hyprctl configerrors
 - **What:** `SUPER + SHIFT + S` runs `omarchy-capture-screenshot`, like Windows' `WIN + SHIFT + S`.
 - **Overrides:** `SUPER + SHIFT + S` was *Google Maps*.
 
-### Screen lock after 15 minutes
+### Screensaver after 5 minutes, screen lock after 15
 - **Files:** `omarchy/shell.json`
-- **What:** `idle.lock` is 900 seconds (was 300). Screensaver unchanged at 150 seconds.
+- **What:** `idle.screensaver` is 300 seconds (was 150) and `idle.lock` is 900 seconds (was 300).
+
+### Bar layout
+- **Files:** `omarchy/shell.json`
+- **What:** the clock sits alone in the center, with the status indicators just before it and a world clock (`omarchy.elsewhen`: Bangkok, Los Angeles, New York, London, Dubai), weather and system updates after it. The keyboard layout moves to the right, after the tray, and the monitor button is last, after power.
+- **Check:** `omarchy restart shell` if the bar doesn't pick up the change.
 
 ### Mac-style line editing in every app
 - **Files:** `hypr/line-editing.lua`, `hypr/bindings.lua` (loads it), `Code/User/keybindings.json`, `foot/foot.ini`, `zsh/zshrc` (`CTRL + Backspace` and `CTRL + Delete` word deletion)
