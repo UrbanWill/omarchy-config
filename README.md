@@ -80,6 +80,11 @@ hyprctl reload && hyprctl configerrors
 - **Overrides:** `SUPER + /` was *Monitor scaling up*; `SUPER + SHIFT + /` was *Passwords* (1Password) and has no shortcut now. `SUPER + -` / `=` (with or without `SHIFT`) are unbound.
 - **Known quirk:** in tiling layouts the keys move the shared border, so on a window in the right or bottom half "wider" or "taller" shrinks it.
 
+### Screenshot on `SUPER + SHIFT + S`
+- **Files:** `hypr/bindings.lua`
+- **What:** `SUPER + SHIFT + S` runs `omarchy-capture-screenshot`, like Windows' `WIN + SHIFT + S`.
+- **Overrides:** `SUPER + SHIFT + S` was *Google Maps*.
+
 ### Screen lock after 15 minutes
 - **Files:** `omarchy/shell.json`
 - **What:** `idle.lock` is 900 seconds (was 300). Screensaver unchanged at 150 seconds.

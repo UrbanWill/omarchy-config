@@ -42,6 +42,8 @@ o.bind("SUPER + SHIFT + SLASH", "Make window shorter", hl.dsp.window.resize({ x 
 
 -- CTRL + A/E/U/K line editing and SUPER + A select all in every app
 require("hypr.line-editing")
+hl.unbind("SUPER + SHIFT + S") -- was: Google Maps
+o.bind("SUPER + SHIFT + S", "Screenshot", "omarchy-capture-screenshot")
 
 -- Dictation keys from before Alt + Space and Right Alt became the defaults.
 -- Remove these lines to give the keys back to applications.
