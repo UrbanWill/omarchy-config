@@ -42,15 +42,31 @@ local function send_keys(steps)
   end
 end
 
-local function per_app(terminal_steps, app_steps)
+-- VS Code hosts a terminal Hyprland can't see focus inside, so it gets the
+-- original chord and maps it per focus in keybindings.json.
+local function active_window_is_vscode()
+  local window = hl.get_active_window()
+  if not window then
+    return false
+  end
+
+  local class = window.class or window.initial_class
+  return class == "code" or class == "Code" or class == "com.microsoft.VSCode"
+end
+
+local function per_app(terminal_steps, app_steps, vscode_steps)
   return function()
-    send_keys(active_window_is_terminal() and terminal_steps or app_steps)
+    if vscode_steps and active_window_is_vscode() then
+      send_keys(vscode_steps)
+    else
+      send_keys(active_window_is_terminal() and terminal_steps or app_steps)
+    end
   end
 end
 
 o.bind("CTRL + A", "Jump to start of line", per_app({ { "CTRL", "A" } }, { { "", "Home" } }))
 o.bind("CTRL + E", "Jump to end of line", per_app({ { "CTRL", "E" } }, { { "", "End" } }))
-o.bind("CTRL + U", "Delete to start of line", per_app({ { "CTRL", "U" } }, { { "SHIFT", "Home" }, { "", "BackSpace" } }))
+o.bind("CTRL + U", "Delete to start of line", per_app({ { "CTRL", "U" } }, { { "SHIFT", "Home" }, { "", "BackSpace" } }, { { "CTRL", "U" } }))
 o.bind("CTRL + K", "Delete to end of line", per_app({ { "CTRL", "K" } }, { { "SHIFT", "End" }, { "", "Delete" } }))
 
 -- Every app gets CTRL + Delete, which deletes the next word in GUI apps and VS

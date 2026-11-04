@@ -1,0 +1,23 @@
+[
+  // Omarchy's SUPER + V sends CTRL + V to non-terminal windows like VS Code,
+  // but the integrated terminal passes CTRL + V to the shell instead of pasting.
+  {
+    "key": "ctrl+v",
+    "command": "workbench.action.terminal.paste",
+    "when": "terminalFocus"
+  },
+  // VS Code claims CTRL + R (Open Recent) before the shell sees it.
+  {
+    "key": "ctrl+r",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": { "text": "\u0012" },
+    "when": "terminalFocus"
+  },
+  // hypr/line-editing.lua sends VS Code a plain CTRL + U, which reaches the
+  // shell in the terminal; in the editor it deletes to the start of the line.
+  {
+    "key": "ctrl+u",
+    "command": "deleteAllLeft",
+    "when": "editorTextFocus && !editorReadonly"
+  }
+]

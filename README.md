@@ -90,7 +90,7 @@ hyprctl reload && hyprctl configerrors
 - **What:** `idle.lock` is 900 seconds (was 300). Screensaver unchanged at 150 seconds.
 
 ### Mac-style line editing in every app
-- **Files:** `hypr/line-editing.lua`, `hypr/bindings.lua` (loads it), `foot/foot.ini`, `zsh/zshrc` (`CTRL + Backspace` and `CTRL + Delete` word deletion)
+- **Files:** `hypr/line-editing.lua`, `hypr/bindings.lua` (loads it), `Code/User/keybindings.json`, `foot/foot.ini`, `zsh/zshrc` (`CTRL + Backspace` and `CTRL + Delete` word deletion)
 - **What:**
 
   | Keys | Action | Sent to GUI apps | Sent to terminals |
@@ -103,6 +103,8 @@ hyprctl reload && hyprctl configerrors
   | `SUPER + A` | select all | `CTRL + A` | `SUPER + A` → Ghostty selects all, foot copies its scrollback |
 
   Terminals are detected with Omarchy's `terminal` window tag. Keys are sent with explicit modifiers so the physically held `CTRL` doesn't leak into them.
+
+  VS Code hosts a terminal Hyprland can't see focus inside, so it gets a plain `CTRL + U`. `Code/User/keybindings.json` turns that into *delete to start of line* in the editor and lets it reach the shell in the integrated terminal. The same file pastes with `CTRL + V` and passes `CTRL + R` (history search) to the shell in the integrated terminal.
 - **Overrides:** in every GUI app, `CTRL + A` (select all, now `SUPER + A`), `CTRL + K` (link insertion, command palettes, VS Code and Zed `CTRL + K` chords), `CTRL + U` (underline, view source) and `CTRL + E` (center align, browser search).
 - **Known quirks:** at the start or end of a line, `CTRL + U` / `CTRL + K` delete the line break and join lines. The foot `SUPER + A` binding only applies to terminal windows opened after the change.
 - **Check:** in a text field, put the cursor mid-line and try each key.
