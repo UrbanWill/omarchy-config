@@ -138,6 +138,7 @@ hyprctl reload && hyprctl configerrors
   - `CTRL + U` deletes only before the cursor, like bash and macOS (zsh's default deletes the whole line)
   - `~/.local/bin` on `PATH`
   - `t3gui` opens the T3 Code desktop app on this machine's screen, also from an SSH session, so the app's own server is the only one running
+- **Per machine:** aliases and functions that only make sense on one machine, such as SSH shortcuts to the other machines, go in `~/.config/zsh/local.zsh`. `zsh/zshrc` sources it last when it exists. It isn't tracked, so each machine keeps its own, and a machine without one starts normally.
 - **How it's tracked:** `~/.zshrc` is a symlink to `~/.config/zsh/zshrc`, the one exception to the no-symlinks rule. zsh only reads `~/.zshrc`, and installers that append to it write through the symlink into the tracked file, so their changes show up in `git status`. If a tool replaces the symlink with a regular file, `ls -la ~/.zshrc` shows it; merge the new lines into `zsh/zshrc` and recreate the link with `ln -sf ~/.config/zsh/zshrc ~/.zshrc`.
 - **Check:** in a new terminal, `echo $0` prints `zsh`.
 
