@@ -22,6 +22,9 @@ source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 # CTRL + U deletes only before the cursor, like bash and macOS (zsh defaults to the whole line)
 bindkey '^U' backward-kill-line
 
+# CTRL + Backspace deletes the previous word (terminals send ^H, which zsh binds to deleting one character)
+bindkey '^H' backward-kill-word
+
 # mosh into the Mac (Host mac in ~/.ssh/config, over Tailscale).
 # mosh-server lives in Homebrew's folder, which a non-interactive SSH login doesn't have on PATH.
 alias moshmac='mosh --server=/opt/homebrew/bin/mosh-server mac'
