@@ -31,3 +31,11 @@ bindkey '^[[3;5~' kill-word
 # mosh into the Mac (Host mac in ~/.ssh/config, over Tailscale).
 # mosh-server lives in Homebrew's folder, which a non-interactive SSH login doesn't have on PATH.
 alias moshmac='mosh --server=/opt/homebrew/bin/mosh-server mac'
+
+# Open the T3 Code desktop app on this machine's screen, also from an SSH session.
+# SSH logins don't get HYPRLAND_INSTANCE_SIGNATURE, so take the newest running instance.
+# `command ls` skips the eza alias, whose -t means something else.
+t3gui() {
+  HYPRLAND_INSTANCE_SIGNATURE=$(command ls -t "${XDG_RUNTIME_DIR:-/run/user/$UID}/hypr" | head -1) \
+    hyprctl dispatch "hl.dsp.exec_cmd(\"$HOME/.local/share/t3code/T3-Code.AppImage\")"
+}
