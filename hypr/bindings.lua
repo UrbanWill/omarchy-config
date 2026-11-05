@@ -54,3 +54,47 @@ if o.dictation_installed and o.dictation_installed() then
   o.bind("SUPER + CTRL + X", "Toggle dictation", "omarchy-dictation toggle")
   o.bind_hold("F9", "Start dictation (push-to-talk)", "omarchy-dictation start", "Stop dictation (push-to-talk)", "omarchy-dictation stop")
 end
+
+-- With both Dell monitors connected, Super + 1-5 go to the left monitor's
+-- workspaces 1-5 and Super + 6-0 to the right monitor's workspaces 1-5, whichever
+-- monitor is focused. SHIFT moves the window there and follows it; SHIFT + ALT
+-- moves it silently. Without both (another machine, one monitor unplugged) the
+-- keys do what Omarchy's defaults do: workspaces 1-10 of the focused monitor.
+local split_left = "desc:Dell Inc. DELL U2422H 36FJRP3"
+local split_right = "desc:Dell Inc. DELL U2422H FV8HRP3"
+
+local function both_connected()
+  return hl.get_monitor(split_left) ~= nil and hl.get_monitor(split_right) ~= nil
+end
+
+local function split_monitor(key)
+  return key <= 5 and split_left or split_right, (key - 1) % 5 + 1
+end
+
+local function focus_key(key)
+  local dual = o.workspaces.focus(select(2, split_monitor(key)), (split_monitor(key)))
+  local single = o.workspaces.focus(key)
+  return function()
+    if both_connected() then dual() else single() end
+  end
+end
+
+local function move_key(key, follow)
+  local single = o.workspaces.move_window(key, follow)
+  return function()
+    if not both_connected() then return single() end
+    local name, slot = split_monitor(key)
+    local window = hl.get_active_window()
+    if not window then return end
+    local id = o.workspaces.workspace_id(hl.get_monitor(name), slot)
+    hl.dispatch(hl.dsp.window.move({ workspace = tostring(id), follow = follow, window = "address:" .. window.address }))
+  end
+end
+
+for key = 1, 10 do
+  local code = "code:" .. tostring(key + 9)
+  local label = key <= 5 and ("left " .. key) or ("right " .. key - 5)
+  o.rebind("SUPER + " .. code, "Switch to workspace " .. key % 10 .. " (dual: " .. label .. ")", focus_key(key))
+  o.rebind("SUPER + SHIFT + " .. code, "Move window to workspace " .. key % 10, move_key(key, true))
+  o.rebind("SUPER + SHIFT + ALT + " .. code, "Move window silently to workspace " .. key % 10, move_key(key, false))
+end

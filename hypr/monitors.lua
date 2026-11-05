@@ -50,7 +50,6 @@ local right_monitor = "desc:Dell Inc. DELL U2422H FV8HRP3"
 hl.monitor({ output = left_monitor, mode = "1920x1080@60", position = "0x0", scale = 1 })
 hl.monitor({ output = right_monitor, mode = "1920x1080@60", position = "1920x0", scale = 1 })
 
--- Workspaces 1-5 on the left monitor, 6-10 on the right
-for i = 1, 10 do
-  hl.workspace_rule({ workspace = tostring(i), monitor = i <= 5 and left_monitor or right_monitor, default = i == 1 or i == 6 })
-end
+-- Super + 1-5 / 6-0 are split across the two monitors in bindings.lua. Don't pin
+-- workspace numbers to monitors here: Omarchy gives each monitor its own block
+-- of ids (left 1-10, right 11-20), and a rule like that fights it.

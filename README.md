@@ -66,13 +66,15 @@ hyprctl reload && hyprctl configerrors
 
 ### Dual monitors with split workspaces
 - **Files:** `hypr/monitors.lua`
-- **What:** left Dell U2422H (serial 36FJRP3) at `0x0`, right (serial FV8HRP3) at `1920x0`, both 1920x1080@60, scale 1. Monitors are matched by serial, so swapping cables between ports keeps the layout. Workspaces 1–5 are bound to the left monitor, 6–10 to the right.
+- **Files:** `hypr/bindings.lua` (the split keys)
+- **What:** left Dell U2422H (serial 36FJRP3) at `0x0`, right (serial FV8HRP3) at `1920x0`, both 1920x1080@60, scale 1. Monitors are matched by serial, so swapping cables between ports keeps the layout. Omarchy gives every monitor its own block of workspace ids (left 1–10, right 11–20); with both Dells connected, SUPER + 1–5 go to the left monitor's first five and SUPER + 6–0 to the right monitor's first five, wherever focus is. On any other machine, or with one Dell unplugged, the keys fall back to Omarchy's default: workspaces 1–10 of the focused monitor.
+- **Don't:** pin workspace numbers to monitors with `hl.workspace_rule` in `monitors.lua`. It fights Omarchy's per-monitor blocks and breaks focus after a second press.
 - **Trade-offs:** the explicit `scale = 1` wins over Omarchy's scaling shortcut after any config reload. To change scale permanently, edit these lines.
-- **Check:** `hyprctl workspaces -j | jq -r '.[] | "\(.id) -> \(.monitor)"'`
+- **Check:** `hyprctl workspaces -j | jq -r '.[] | "\(.id) -> \(.monitor)"'` shows 1–5 on DP-1 and 11–15 on DP-2.
 
 ### Per-monitor workspace widget in the bar
 - **Files:** `omarchy/plugins/urban.workspaces/`, `omarchy/shell.json`
-- **What:** a clone of `omarchy.workspaces`. Each bar shows the five workspaces of its own screen (screens ordered left to right) plus any other workspace on that screen, and marks that screen's active workspace.
+- **What:** a clone of `omarchy.workspaces`. Each bar shows the first five workspaces of its monitor's block (read from `~/.local/state/omarchy/monitors/workspaces`), labelled by key (left 1–5, right 6–0), plus any other workspace on that screen, and marks that screen's active workspace. Like the stock widget, it asks Hyprland for monitors and workspaces after each switch, because Quickshell misses switches on unfocused monitors.
 - **Trade-offs:** the clone no longer receives Omarchy's updates to the stock widget. Hot reload doesn't apply edits to this file, so run `omarchy restart shell` after changing it.
 - **Check:** each bar shows its own numbers (left 1–5, right 6–0).
 
