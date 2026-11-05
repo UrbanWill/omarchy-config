@@ -81,13 +81,27 @@ end
 
 local function move_key(key, follow)
   local single = o.workspaces.move_window(key, follow)
+  local name, slot = split_monitor(key)
+  local go_there = o.workspaces.focus(slot, name)
   return function()
     if not both_connected() then return single() end
-    local name, slot = split_monitor(key)
+    local monitor = hl.get_monitor(name)
     local window = hl.get_active_window()
     if not window then return end
-    local id = o.workspaces.workspace_id(hl.get_monitor(name), slot)
-    hl.dispatch(hl.dsp.window.move({ workspace = tostring(id), follow = follow, window = "address:" .. window.address }))
+    local id = o.workspaces.workspace_id(monitor, slot)
+
+    -- Hyprland creates a missing workspace on the focused monitor, so moving to
+    -- the other monitor's block would land it on this one. Move the window
+    -- without following, put its workspace on the target monitor, then follow.
+    hl.dispatch(hl.dsp.window.move({ workspace = tostring(id), follow = false, window = "address:" .. window.address }))
+    local workspace = hl.get_workspace(id)
+    if workspace and workspace.monitor and workspace.monitor.name ~= monitor.name then
+      hl.dispatch(hl.dsp.workspace.move({ workspace = tostring(id), monitor = monitor.name }))
+    end
+    if follow then
+      go_there()
+      hl.dispatch(hl.dsp.focus({ window = "address:" .. window.address }))
+    end
   end
 end
 
