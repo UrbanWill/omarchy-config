@@ -1,0 +1,42 @@
+# Template for ~/.config/zsh/local.zsh, the per-machine zsh file.
+#
+# zsh/zshrc sources ~/.config/zsh/local.zsh last, if it exists. That file is
+# not tracked in git, so each machine keeps its own. Put things there that
+# only make sense on one machine, such as shortcuts to the other machines.
+#
+# To use it:
+#   cp ~/.config/zsh/local.zsh.example ~/.config/zsh/local.zsh
+#   edit the host names below, delete what you don't need
+#   open a new terminal, or run: source ~/.config/zsh/local.zsh
+#
+# Host names refer to Host entries in ~/.ssh/config.
+
+# Plain mosh into another machine.
+alias moshother='mosh other-host'
+
+# mosh into another machine and attach to a tmux session, creating it if
+# needed. Usage: devother [session-name]   (default: main)
+devother() {
+    local session="${1:-main}"
+
+    if [[ $# -gt 1 || ! "$session" =~ ^[a-zA-Z0-9_-]+$ ]]; then
+        echo "Usage: devother [session-name]"
+        return 1
+    fi
+
+    mosh other-host -- tmux new-session -A -s "$session"
+}
+
+# Same for a Mac. A non-interactive SSH login to macOS lacks Homebrew on PATH,
+# so mosh-server and tmux are called by their absolute paths.
+devmac() {
+    local session="${1:-main}"
+
+    if [[ $# -gt 1 || ! "$session" =~ ^[a-zA-Z0-9_-]+$ ]]; then
+        echo "Usage: devmac [session-name]"
+        return 1
+    fi
+
+    mosh --server=/opt/homebrew/bin/mosh-server mac \
+        -- /opt/homebrew/bin/tmux new-session -A -s "$session"
+}
