@@ -53,6 +53,7 @@ git config status.showUntrackedFiles no
 git update-index --skip-worktree hypr/monitors.lua hypr/hyprland.lua omarchy/shell.json
 find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +   # drop the clone's own copies
 git checkout -- .                                 # write the shared files into ~/.config
+for p in $(git ls-files | cut -d/ -f1 | sort -u); do [ -e "$p" ] || ln -s ~/.config/"$p" "$p"; done   # browsing shortcuts in the repo folder; git ignores them
 omarchy install terminal ghostty
 omarchy pkg add omarchy-zsh zsh-autosuggestions mosh
 omarchy-setup-zsh
