@@ -65,8 +65,7 @@ hyprctl reload && hyprctl configerrors
 ## Customizations
 
 ### Dual monitors with split workspaces
-- **Files:** `hypr/monitors.lua`
-- **Files:** `hypr/bindings.lua` (the split keys)
+- **Files:** `hypr/monitors.lua`, `hypr/bindings.lua` (the split keys)
 - **What:** left Dell U2422H (serial 36FJRP3) at `0x0`, right (serial FV8HRP3) at `1920x0`, both 1920x1080@60, scale 1. Monitors are matched by serial, so swapping cables between ports keeps the layout. Omarchy gives every monitor its own block of workspace ids (left 1–10, right 11–20); with both Dells connected, SUPER + 1–5 go to the left monitor's first five and SUPER + 6–0 to the right monitor's first five, wherever focus is. On any other machine, or with one Dell unplugged, the keys fall back to Omarchy's default: workspaces 1–10 of the focused monitor.
 - **Don't:** pin workspace numbers to monitors with `hl.workspace_rule` in `monitors.lua`. It fights Omarchy's per-monitor blocks and breaks focus after a second press.
 - **Trade-offs:** the explicit `scale = 1` wins over Omarchy's scaling shortcut after any config reload. To change scale permanently, edit these lines.
