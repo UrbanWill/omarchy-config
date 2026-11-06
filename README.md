@@ -154,6 +154,12 @@ hyprctl reload && hyprctl configerrors
 - **Trade-offs:** `omarchy refresh` on this file resets it to Omarchy's default.
 - **Check:** `cd` into a git repo with a `package.json` and look at the prompt.
 
+### tmux copies reach the local clipboard over mosh
+- **Files:** `tmux/tmux.conf`
+- **What:** a `terminal-overrides` line makes tmux send its OSC 52 clipboard writes with the `c` selection. mosh 1.4 drops OSC 52 writes with an empty selection, which is what tmux sends by default, so text copied in tmux on a machine reached with mosh only landed in tmux's paste buffer (`prefix + ]`). Now it reaches the clipboard of the machine running mosh, and `SUPER + V` pastes it. The setting goes on the machine where tmux runs. The Mac (`devmac`) carries the same line in its own `~/.tmux.conf`.
+- **Trade-offs:** `omarchy refresh tmux` replaces the file with Omarchy's default and drops the line.
+- **Check:** after reconnecting with mosh, copy in tmux copy mode with `y`, then run `wl-paste` on the local machine.
+
 ### Slightly rounded window corners
 - **Files:** `hypr/looknfeel.lua`
 - **What:** `decoration.rounding = 6` (Omarchy's default is 0, square corners). Bigger numbers are rounder; Omarchy's popped windows use 8.
