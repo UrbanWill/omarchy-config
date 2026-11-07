@@ -94,7 +94,7 @@ hyprctl reload && hyprctl configerrors
 
 ### Bar layout
 - **Files:** `omarchy/shell.json`
-- **What:** the clock sits alone in the center, with the status indicators just before it and a world clock (`omarchy.elsewhen`: Bangkok, Los Angeles, Rio de Janeiro), weather and system updates after it. The keyboard layout moves to the right, after the tray, and the monitor button is last, after power.
+- **What:** the clock sits alone in the center, with the status indicators just before it and a world clock (`omarchy.elsewhen`: Bangkok, Los Angeles, Rio de Janeiro), weather and system updates after it. The right section starts with the agents widget, then the tray and the keyboard layout, and the monitor button is last, after power.
 - **Check:** `omarchy restart shell` if the bar doesn't pick up the change.
 
 ### Mac-style line editing in every app

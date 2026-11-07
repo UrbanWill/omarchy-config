@@ -26,13 +26,13 @@
       ],
       "right": [
         {
+          "id": "omarchy.agents"
+        },
+        {
           "id": "omarchy.tray"
         },
         {
           "id": "omarchy.keyboard-layout"
-        },
-        {
-          "id": "omarchy.agents"
         },
         {
           "id": "omarchy.bluetooth"
