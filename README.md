@@ -88,6 +88,13 @@ hyprctl reload && hyprctl configerrors
 - **What:** `SUPER + SHIFT + S` runs `omarchy-capture-screenshot`, like Windows' `WIN + SHIFT + S`.
 - **Overrides:** `SUPER + SHIFT + S` was *Google Maps*.
 
+### `SUPER + V` pastes images into terminals
+- **Files:** `hypr/bindings.lua`, `hypr/terminal-paste.sh`
+- **What:** in a terminal, `SUPER + V` checks the clipboard. Text pastes with the terminal's `CTRL + SHIFT + V` as before. An image with no text sends `CTRL + V` instead, which Claude Code reads as *paste image*, so screenshots paste straight in. Other apps get `CTRL + V` as in Omarchy's default.
+- **Overrides:** Omarchy's *Universal paste* on `SUPER + V`.
+- **Known quirks:** the clipboard check runs in `terminal-paste.sh`, not in the Lua config. `wl-paste` needs Hyprland to answer, so running it from inside the config freezes the desktop until `wl-paste` is killed. In a plain shell, an image paste sends `CTRL + V` (zsh's *quoted insert*), so the next key is inserted literally.
+- **Check:** take a screenshot, then press `SUPER + V` in Claude Code: it shows `[Image #N]`. Copy some text and `SUPER + V` pastes it.
+
 ### Screensaver after 5 minutes, screen lock after 15
 - **Files:** `omarchy/shell.json`
 - **What:** `idle.screensaver` is 300 seconds (was 150) and `idle.lock` is 900 seconds (was 300).

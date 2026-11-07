@@ -42,6 +42,25 @@ o.bind("SUPER + SHIFT + SLASH", "Make window shorter", hl.dsp.window.resize({ x 
 
 -- CTRL + A/E/U/K line editing and SUPER + A select all in every app
 require("hypr.line-editing")
+-- SUPER + V in a terminal pastes an image (CTRL + V) when the clipboard holds
+-- one and no text, so screenshots paste into Claude Code. Text still pastes
+-- with the terminal's CTRL + SHIFT + V. Other apps keep Omarchy's CTRL + V.
+local function super_v()
+  local window = hl.get_active_window()
+  for _, tag in ipairs((window and window.tags) or {}) do
+    if tag:gsub("%*$", "") == "terminal" then
+      hl.exec_cmd(os.getenv("HOME") .. "/.config/hypr/terminal-paste.sh")
+      return
+    end
+  end
+  hl.dispatch(hl.dsp.send_key_state({ mods = "CTRL", key = "V", state = "down" }))
+  hl.timer(function()
+    hl.dispatch(hl.dsp.send_key_state({ mods = "CTRL", key = "V", state = "up" }))
+  end, { timeout = 50, type = "oneshot" })
+end
+hl.unbind("SUPER + V")
+o.bind("SUPER + V", "Universal paste (images too in terminals)", super_v)
+
 hl.unbind("SUPER + SHIFT + S") -- was: Google Maps
 o.bind("SUPER + SHIFT + S", "Screenshot", "omarchy-capture-screenshot")
 
