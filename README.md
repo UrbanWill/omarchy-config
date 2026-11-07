@@ -167,6 +167,11 @@ hyprctl reload && hyprctl configerrors
 - **Trade-offs:** `omarchy refresh tmux` replaces the file with Omarchy's default and drops the line.
 - **Check:** after reconnecting with mosh, copy in tmux copy mode with `y`, then run `wl-paste` on the local machine.
 
+### VS Code settings and snippets
+- **Files:** `Code/User/settings.json`, `Code/User/snippets/`
+- **What:** editor settings (theme, fonts, formatting, Rust and Python tooling) and the `rfc` React component snippet. The rest of `Code/User/` is app state VS Code rewrites constantly and stays untracked.
+- **Trade-offs:** VS Code's Settings Sync also syncs these files through the account. After a `git pull`, Settings Sync can write its own copy back; turn off Settings and Snippets in its options to leave them to git.
+
 ### Slightly rounded window corners
 - **Files:** `hypr/looknfeel.lua`
 - **What:** `decoration.rounding = 6` (Omarchy's default is 0, square corners). Bigger numbers are rounder; Omarchy's popped windows use 8.
