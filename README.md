@@ -172,6 +172,13 @@ hyprctl reload && hyprctl configerrors
 - **What:** editor settings (theme, fonts, formatting, Rust and Python tooling) and the `rfc` React component snippet. The rest of `Code/User/` is app state VS Code rewrites constantly and stays untracked.
 - **Trade-offs:** VS Code's Settings Sync also syncs these files through the account. After a `git pull`, Settings Sync can write its own copy back; turn off Settings and Snippets in its options to leave them to git.
 
+### Rust in Neovim
+- **Files:** `nvim/lazyvim.json`, `nvim/lazy-lock.json`
+- **What:** turns on LazyVim's `lang.rust` extra: rustaceanvim runs rust-analyzer for errors, hover, go-to-definition and code actions, and crates.nvim shows crate versions in `Cargo.toml`. `lazy-lock.json` pins every plugin's commit, so all machines run the same versions.
+- **Per machine:** rust-analyzer itself isn't in the repo. Install Rust with `omarchy install dev-env rust`, then `rustup component add rust-analyzer`, and open a new terminal so `~/.cargo/bin` is on `PATH`.
+- **Trade-offs:** `:Lazy update` rewrites `lazy-lock.json`; commit it, and run `:Lazy restore` on the other machines after pulling to install the same versions. The rest of `nvim/` is Omarchy's stock config; `nvim/lua/plugins/theme.lua` is a symlink Omarchy rewrites on theme changes and stays untracked.
+- **Check:** `:checkhealth rustaceanvim` shows ✅ for rust-analyzer, cargo and rustc. The nvim-dap warning only matters for debugging (`dap.core` in `:LazyExtras`).
+
 ### Slightly rounded window corners
 - **Files:** `hypr/looknfeel.lua`
 - **What:** `decoration.rounding = 6` (Omarchy's default is 0, square corners). Bigger numbers are rounder; Omarchy's popped windows use 8.
