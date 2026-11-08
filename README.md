@@ -180,6 +180,11 @@ hyprctl reload && hyprctl configerrors
 - **Files:** `hypr/monitors.lua`
 - **What:** Omarchy's scaling shortcut set the catch-all scale to 1.25 and `GDK_SCALE` to 1. The two Dells keep their explicit scale 1; `GDK_SCALE` 1 renders GTK apps at normal size.
 
+### No word-suggestion popup while typing
+- **Files:** `fcitx5/conf/keyboard.conf`
+- **What:** fcitx5's keyboard engine shows a spelling-suggestion popup (`A-1. example`, `A-2. …`) when you press `CTRL + ALT + H` (turns it on and off) or `CTRL + ALT + J` (shows it once). Both shortcuts are unbound and hints are off by default, so the popup can't open by accident.
+- **Check:** type in any app after pressing `CTRL + ALT + H`; no popup appears.
+
 ## After each `omarchy update`
 
 1. `hyprctl reload && hyprctl configerrors` — the config still loads.
