@@ -244,9 +244,10 @@ Only active in `.ts/.tsx` buffers. The LSP keys from the Rust section (`g d`, `K
 | `Space g B` | Git Browse (open) |
 | `Space g D` | Git Diff (origin) |
 | `Space g G` | Lazygit (cwd) |
-| `Space g I` | GitHub Issues (all) |
+| `Space g I` | Search Issues (Octo) |
 | `Space g L` | Git Log (cwd) |
-| `Space g P` | GitHub Pull Requests (all) |
+| `Space g O` | Search (Octo) |
+| `Space g P` | Search PRs (Octo) |
 | `Space g S` | Git Stash |
 | `Space g Y` | Git Browse (copy) |
 | `Space g b` | Git Blame Line |
@@ -254,9 +255,10 @@ Only active in `.ts/.tsx` buffers. The LSP keys from the Rust section (`g d`, `K
 | `Space g e` | Git Explorer |
 | `Space g f` | Git Current File History |
 | `Space g g` | Lazygit (Root Dir) |
-| `Space g i` | GitHub Issues (open) |
+| `Space g i` | List Issues (Octo) |
 | `Space g l` | Git Log |
-| `Space g p` | GitHub Pull Requests (open) |
+| `Space g p` | List PRs (Octo) |
+| `Space g r` | List Repos (Octo) |
 | `Space g s` | Git Status |
 
 ## Leader: buffer
