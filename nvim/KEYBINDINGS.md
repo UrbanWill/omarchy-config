@@ -310,6 +310,7 @@ Only active in `.ts/.tsx` buffers. The LSP keys from the Rust section (`g d`, `K
 | `Space /` | Grep (Root Dir) |
 | `Space :` | Command History |
 | `Space ?` | Buffer Keymaps (which-key) |
+| `Space D` | Toggle DBUI |
 | `Space E` | Explorer NeoTree (cwd) |
 | `Space K` | Keywordprg |
 | `Space L` | LazyVim Changelog |
@@ -318,6 +319,7 @@ Only active in `.ts/.tsx` buffers. The LSP keys from the Rust section (`g d`, `K
 | `Space e` | Explorer NeoTree (Root Dir) |
 | `Space l` | Lazy |
 | `Space n` | Notification History |
+| `Space p` | Open Yank History |
 | `Space \|` | Split Window Right |
 
 ## Leader: ui
@@ -348,6 +350,7 @@ Only active in `.ts/.tsx` buffers. The LSP keys from the Rust section (`g d`, `K
 | `Space u p` | Toggle Mini Pairs |
 | `Space u r` | Redraw / Clear hlsearch / Diff Update |
 | `Space u s` | Toggle Spelling |
+| `Space u t` | Toggle Treesitter Context |
 | `Space u w` | Toggle Wrap |
 | `Space u z` | Toggle Zen Mode |
 
