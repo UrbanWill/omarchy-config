@@ -29,13 +29,13 @@
           "id": "omarchy.agents"
         },
         {
+          "id": "omarchy.bluetooth"
+        },
+        {
           "id": "omarchy.tray"
         },
         {
           "id": "omarchy.keyboard-layout"
-        },
-        {
-          "id": "omarchy.bluetooth"
         },
         {
           "id": "omarchy.network"
