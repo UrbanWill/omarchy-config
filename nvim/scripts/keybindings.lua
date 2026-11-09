@@ -73,25 +73,45 @@ local dir = vim.fn.tempname()
 vim.fn.mkdir(dir .. "/src", "p")
 vim.fn.writefile({ "[package]", 'name = "probe"', 'version = "0.1.0"', 'edition = "2021"' }, dir .. "/Cargo.toml")
 vim.fn.writefile({ "fn main() {}" }, dir .. "/src/main.rs")
-vim.cmd.edit(dir .. "/src/main.rs")
-local attached = vim.wait(30000, function()
-  return #vim.lsp.get_clients({ bufnr = 0, name = "rust-analyzer" }) > 0
-end, 200)
-vim.wait(1000)
+vim.fn.writefile({ "# probe" }, dir .. "/README.md")
+
 local global_desc = {}
 for _, map in ipairs(vim.api.nvim_get_keymap("n")) do
   global_desc[map.lhs] = map.desc
 end
-local rust_maps = {}
-if attached then
+
+-- Opens a file, waits for its language server, and returns its buffer-local keymaps.
+local function buffer_maps(path, server)
+  vim.cmd.edit(path)
+  local attached = vim.wait(30000, function()
+    return #vim.lsp.get_clients({ bufnr = 0, name = server }) > 0
+  end, 200)
+  vim.wait(1000)
+  local maps = {}
   for _, map in ipairs(vim.api.nvim_buf_get_keymap(0, "n")) do
     if useful(map) then
       local shadowed = global_desc[map.lhs]
       if shadowed and shadowed ~= map.desc then
         map = { lhs = map.lhs, desc = ("%s _(replaces global: %s)_"):format(map.desc, shadowed) }
       end
-      table.insert(rust_maps, map)
+      table.insert(maps, map)
     end
+  end
+  return attached, maps
+end
+
+local attached, rust_maps = buffer_maps(dir .. "/src/main.rs", "rust-analyzer")
+local md_attached, md_all = buffer_maps(dir .. "/README.md", "marksman")
+
+-- Markdown files share the generic LSP keys with Rust; list only what differs.
+local in_rust = {}
+for _, map in ipairs(rust_maps) do
+  in_rust[map.lhs .. "\0" .. map.desc] = true
+end
+local md_maps = {}
+for _, map in ipairs(md_all) do
+  if not in_rust[map.lhs .. "\0" .. map.desc] then
+    table.insert(md_maps, map)
   end
 end
 
@@ -153,6 +173,17 @@ if attached then
   table_of(rust_maps)
 else
   lines[#lines + 1] = "_rust-analyzer did not attach while generating; is it on PATH?_"
+  lines[#lines + 1] = ""
+end
+
+lines[#lines + 1] = "## Markdown files"
+lines[#lines + 1] = ""
+if md_attached then
+  lines[#lines + 1] = "Only active in `.md` buffers. The LSP keys from the Rust section (`g d`, `K`, `Space c a`, ...) work here too."
+  lines[#lines + 1] = ""
+  table_of(md_maps)
+else
+  lines[#lines + 1] = "_marksman did not attach while generating; is it installed (`:Mason`)?_"
   lines[#lines + 1] = ""
 end
 

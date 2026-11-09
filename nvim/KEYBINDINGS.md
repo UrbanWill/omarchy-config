@@ -50,6 +50,17 @@ Only active in `.rs` buffers once rust-analyzer attaches.
 | `g r` | References |
 | `g y` | Goto T[y]pe Definition |
 
+## Markdown files
+
+Only active in `.md` buffers. The LSP keys from the Rust section (`g d`, `K`, `Space c a`, ...) work here too.
+
+| Keys | Action |
+|---|---|
+| `Space c p` | Markdown Preview |
+| `[ [` | Jump to previous section |
+| `] ]` | Jump to next section |
+| `g O` | Show an Outline of the current buffer _(replaces global: vim.lsp.buf.document_symbol())_ |
+
 ## File tree (inside neo-tree)
 
 | Keys | Action |
