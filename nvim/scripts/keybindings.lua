@@ -58,16 +58,6 @@ local function group_of(lhs)
   return groups[(tokens(lhs)[2] or ""):lower()] or "other"
 end
 
--- Global leader keymaps, normal mode.
-local by_group = {}
-for _, map in ipairs(vim.api.nvim_get_keymap("n")) do
-  if useful(map) and map.lhs:sub(1, #leader) == leader and #map.lhs > #leader and not map.desc:match("^%+") then
-    local g = #tokens(map.lhs) == 2 and "top level" or group_of(map.lhs)
-    by_group[g] = by_group[g] or {}
-    table.insert(by_group[g], map)
-  end
-end
-
 -- Buffer-local keymaps in a Rust file, from rust-analyzer + rustaceanvim.
 local dir = vim.fn.tempname()
 vim.fn.mkdir(dir .. "/src", "p")
@@ -102,6 +92,17 @@ end
 
 local attached, rust_maps = buffer_maps(dir .. "/src/main.rs", "rust-analyzer")
 local md_attached, md_all = buffer_maps(dir .. "/README.md", "marksman")
+
+-- Global leader keymaps, normal mode. Read after opening the probe files, because some
+-- plugins (render-markdown's toggle, for one) only create their global keys on first load.
+local by_group = {}
+for _, map in ipairs(vim.api.nvim_get_keymap("n")) do
+  if useful(map) and map.lhs:sub(1, #leader) == leader and #map.lhs > #leader and not map.desc:match("^%+") then
+    local g = #tokens(map.lhs) == 2 and "top level" or group_of(map.lhs)
+    by_group[g] = by_group[g] or {}
+    table.insert(by_group[g], map)
+  end
+end
 
 -- Markdown files share the generic LSP keys with Rust; list only what differs.
 local in_rust = {}

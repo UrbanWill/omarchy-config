@@ -318,6 +318,7 @@ Only active in `.md` buffers. The LSP keys from the Rust section (`g d`, `K`, `S
 | `Space u C` | Colorschemes |
 | `Space u D` | Toggle Dimming |
 | `Space u F` | Toggle Auto Format (Buffer) |
+| `Space u G` | Toggle Git Signs |
 | `Space u I` | Inspect Tree |
 | `Space u L` | Toggle Relative Number |
 | `Space u S` | Toggle Smooth Scroll |
@@ -332,6 +333,7 @@ Only active in `.md` buffers. The LSP keys from the Rust section (`g d`, `K`, `S
 | `Space u h` | Toggle Inlay Hints |
 | `Space u i` | Inspect Pos |
 | `Space u l` | Toggle Line Numbers |
+| `Space u m` | Toggle Render Markdown |
 | `Space u n` | Dismiss All Notifications |
 | `Space u p` | Toggle Mini Pairs |
 | `Space u r` | Redraw / Clear hlsearch / Diff Update |
