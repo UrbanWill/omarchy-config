@@ -20,7 +20,7 @@ Only active in `.rs` buffers once rust-analyzer attaches.
 | `Space c a` | Code Action |
 | `Space c c` | Run Codelens |
 | `Space c l` | Lsp Info |
-| `Space c r` | Rename |
+| `Space c r` | Rename (inc-rename.nvim) |
 | `Space d r` | Rust Debuggables _(replaces global: Toggle REPL)_ |
 | `Space s S` | LSP Workspace Symbols |
 | `Space s s` | LSP Symbols |
@@ -60,6 +60,14 @@ Only active in `.md` buffers. The LSP keys from the Rust section (`g d`, `K`, `S
 | `[ [` | Jump to previous section |
 | `] ]` | Jump to next section |
 | `g O` | Show an Outline of the current buffer _(replaces global: vim.lsp.buf.document_symbol())_ |
+
+## TypeScript files
+
+Only active in `.ts/.tsx` buffers. The LSP keys from the Rust section (`g d`, `K`, `Space c a`, ...) work here too.
+
+| Keys | Action |
+|---|---|
+| `Space c o` | Organize Imports |
 
 ## File tree (inside neo-tree)
 

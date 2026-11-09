@@ -64,6 +64,15 @@ vim.fn.mkdir(dir .. "/src", "p")
 vim.fn.writefile({ "[package]", 'name = "probe"', 'version = "0.1.0"', 'edition = "2021"' }, dir .. "/Cargo.toml")
 vim.fn.writefile({ "fn main() {}" }, dir .. "/src/main.rs")
 vim.fn.writefile({ "# probe" }, dir .. "/README.md")
+vim.fn.writefile({ '{ "compilerOptions": { "strict": true } }' }, dir .. "/tsconfig.json")
+vim.fn.writefile({ '{ "name": "probe" }' }, dir .. "/package.json")
+vim.fn.writefile({ "export const x = 1" }, dir .. "/index.ts")
+
+-- Filetypes whose language-specific keys get their own section, after the Rust one.
+local filetype_sections = {
+  { title = "Markdown files", ext = "md", path = dir .. "/README.md", server = "marksman" },
+  { title = "TypeScript files", ext = "ts/.tsx", path = dir .. "/index.ts", server = "tsc" },
+}
 
 local global_desc = {}
 for _, map in ipairs(vim.api.nvim_get_keymap("n")) do
@@ -91,7 +100,9 @@ local function buffer_maps(path, server)
 end
 
 local attached, rust_maps = buffer_maps(dir .. "/src/main.rs", "rust-analyzer")
-local md_attached, md_all = buffer_maps(dir .. "/README.md", "marksman")
+for _, section in ipairs(filetype_sections) do
+  section.attached, section.all = buffer_maps(section.path, section.server)
+end
 
 -- Global leader keymaps, normal mode. Read after opening the probe files, because some
 -- plugins (render-markdown's toggle, for one) only create their global keys on first load.
@@ -104,15 +115,17 @@ for _, map in ipairs(vim.api.nvim_get_keymap("n")) do
   end
 end
 
--- Markdown files share the generic LSP keys with Rust; list only what differs.
+-- Other filetypes share the generic LSP keys with Rust; list only what differs.
 local in_rust = {}
 for _, map in ipairs(rust_maps) do
   in_rust[map.lhs .. "\0" .. map.desc] = true
 end
-local md_maps = {}
-for _, map in ipairs(md_all) do
-  if not in_rust[map.lhs .. "\0" .. map.desc] then
-    table.insert(md_maps, map)
+for _, section in ipairs(filetype_sections) do
+  section.maps = {}
+  for _, map in ipairs(section.all) do
+    if not in_rust[map.lhs .. "\0" .. map.desc] then
+      table.insert(section.maps, map)
+    end
   end
 end
 
@@ -177,15 +190,17 @@ else
   lines[#lines + 1] = ""
 end
 
-lines[#lines + 1] = "## Markdown files"
-lines[#lines + 1] = ""
-if md_attached then
-  lines[#lines + 1] = "Only active in `.md` buffers. The LSP keys from the Rust section (`g d`, `K`, `Space c a`, ...) work here too."
+for _, section in ipairs(filetype_sections) do
+  lines[#lines + 1] = "## " .. section.title
   lines[#lines + 1] = ""
-  table_of(md_maps)
-else
-  lines[#lines + 1] = "_marksman did not attach while generating; is it installed (`:Mason`)?_"
-  lines[#lines + 1] = ""
+  if section.attached then
+    lines[#lines + 1] = ("Only active in `.%s` buffers. The LSP keys from the Rust section (`g d`, `K`, `Space c a`, ...) work here too."):format(section.ext)
+    lines[#lines + 1] = ""
+    table_of(section.maps)
+  else
+    lines[#lines + 1] = ("_%s did not attach while generating; is it installed (`:Mason`)?_"):format(section.server)
+    lines[#lines + 1] = ""
+  end
 end
 
 lines[#lines + 1] = "## File tree (inside neo-tree)"
