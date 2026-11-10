@@ -19,17 +19,8 @@
 # Gray suggestions from history; → accepts
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-# CTRL + U deletes only before the cursor, like bash and macOS (zsh defaults to the whole line)
-bindkey '^U' backward-kill-line
-
-# CTRL + Backspace deletes the previous word (terminals send ^H, which zsh binds to deleting one character)
-bindkey '^H' backward-kill-word
-
-# CTRL + Delete deletes the next word (CTRL + SHIFT + Backspace sends it too, see hypr/line-editing.lua)
-bindkey '^[[3;5~' kill-word
-
-# SUPER + SHIFT + Z redoes (Ghostty sends it as CSI 122;6u, see hypr/line-editing.lua); SUPER + Z undoes via CTRL + _
-bindkey '^[[122;6u' redo
+# Line-editing keys (CTRL + U, CTRL + Backspace, CTRL + Delete, redo), shared with the Mac mirror
+source ~/.config/zsh/keys.zsh
 
 # mosh into the Mac (Host mac in ~/.ssh/config, over Tailscale).
 # mosh-server lives in Homebrew's folder, which a non-interactive SSH login doesn't have on PATH.
@@ -42,6 +33,9 @@ t3gui() {
   HYPRLAND_INSTANCE_SIGNATURE=$(command ls -t "${XDG_RUNTIME_DIR:-/run/user/$UID}/hypr" | head -1) \
     hyprctl dispatch "hl.dsp.exec_cmd(\"$HOME/.local/share/t3code/T3-Code.AppImage\")"
 }
+
+# devmac: mosh into the Mac with this machine's tmux, zsh and Neovim (github.com/UrbanWill/mac-dotfiles-mirror-omarchy)
+[[ -f ~/Projects/mac-dotfiles-mirror-omarchy/omarchy/devmac.zsh ]] && source ~/Projects/mac-dotfiles-mirror-omarchy/omarchy/devmac.zsh
 
 # Per-machine additions, not tracked in git.
 if [[ -f ~/.config/zsh/local.zsh ]]; then source ~/.config/zsh/local.zsh; fi
