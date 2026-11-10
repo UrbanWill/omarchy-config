@@ -29,6 +29,9 @@ keybind = control+insert=copy_to_clipboard
 keybind = shift+enter=csi:13;2u
 # Legacy encoding sends Alt+Shift+Enter the same as Alt+Enter; send CSI-u so tmux can match M-S-Enter.
 keybind = alt+shift+enter=csi:13;4u
+# Redo: SUPER + SHIFT + Z reaches terminals as CTRL + SHIFT + Z (see hypr/line-editing.lua).
+# Send it as CSI-u so it never becomes CTRL + Z, which would suspend the running program.
+keybind = ctrl+shift+z=csi:122;6u
 keybind = super+control+shift+alt+arrow_down=resize_split:down,100
 keybind = super+control+shift+alt+arrow_up=resize_split:up,100
 keybind = super+control+shift+alt+arrow_left=resize_split:left,100

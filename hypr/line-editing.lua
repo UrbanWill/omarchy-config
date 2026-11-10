@@ -81,6 +81,8 @@ hl.unbind("SUPER + A")
 o.bind("SUPER + A", "Select all", per_app({ { "SUPER", "A" } }, { { "CTRL", "A" } }))
 
 -- CTRL + Z would suspend the running program in a terminal, so terminals get
--- the shell's own undo (CTRL + _). The shell has no redo.
+-- the shell's own undo (CTRL + _). For redo they get CTRL + SHIFT + Z, which
+-- Ghostty sends as CSI 122;6u rather than CTRL + Z (see ghostty/config); zshrc
+-- binds that to redo, and Neovim maps it in insert mode.
 o.bind("SUPER + Z", "Undo", per_app({ { "CTRL SHIFT", "minus" } }, { { "CTRL", "Z" } }))
-o.bind("SUPER + SHIFT + Z", "Redo", per_app({}, { { "CTRL SHIFT", "Z" } }))
+o.bind("SUPER + SHIFT + Z", "Redo", per_app({ { "CTRL SHIFT", "Z" } }, { { "CTRL SHIFT", "Z" } }))

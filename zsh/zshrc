@@ -28,6 +28,9 @@ bindkey '^H' backward-kill-word
 # CTRL + Delete deletes the next word (CTRL + SHIFT + Backspace sends it too, see hypr/line-editing.lua)
 bindkey '^[[3;5~' kill-word
 
+# SUPER + SHIFT + Z redoes (Ghostty sends it as CSI 122;6u, see hypr/line-editing.lua); SUPER + Z undoes via CTRL + _
+bindkey '^[[122;6u' redo
+
 # mosh into the Mac (Host mac in ~/.ssh/config, over Tailscale).
 # mosh-server lives in Homebrew's folder, which a non-interactive SSH login doesn't have on PATH.
 alias moshmac='mosh --server=/opt/homebrew/bin/mosh-server mac'
