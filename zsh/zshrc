@@ -34,8 +34,9 @@ t3gui() {
     hyprctl dispatch "hl.dsp.exec_cmd(\"$HOME/.local/share/t3code/T3-Code.AppImage\")"
 }
 
-# devmac: mosh into the Mac with this machine's tmux, zsh and Neovim (github.com/UrbanWill/mac-dotfiles-mirror-omarchy)
-[[ -f ~/Projects/mac-dotfiles-mirror-omarchy/omarchy/devmac.zsh ]] && source ~/Projects/mac-dotfiles-mirror-omarchy/omarchy/devmac.zsh
-
 # Per-machine additions, not tracked in git.
 if [[ -f ~/.config/zsh/local.zsh ]]; then source ~/.config/zsh/local.zsh; fi
+
+# devmac: mosh into the Mac with this machine's tmux, zsh and Neovim (github.com/UrbanWill/mac-dotfiles-mirror-omarchy).
+# Loaded after local.zsh so an older devmac defined there can't shadow it.
+[[ -f ~/Projects/mac-dotfiles-mirror-omarchy/omarchy/devmac.zsh ]] && source ~/Projects/mac-dotfiles-mirror-omarchy/omarchy/devmac.zsh
