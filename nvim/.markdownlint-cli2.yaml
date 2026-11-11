@@ -2,3 +2,5 @@
 config:
   line-length: false
   no-hard-tabs: false
+  fenced-code-language: false
+  table-column-style: false
