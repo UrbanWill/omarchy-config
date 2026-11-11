@@ -1,6 +1,4 @@
--- Point markdownlint at the base config in this Neovim directory, for both the
--- linter (diagnostics) and the formatter (--fix on save), so they agree.
-local config = vim.fn.stdpath("config") .. "/.markdownlint-cli2.yaml"
+local base_config_path = vim.fn.stdpath("config") .. "/.markdownlint-cli2.yaml"
 
 return {
   {
@@ -8,7 +6,7 @@ return {
     optional = true,
     opts = {
       linters = {
-        ["markdownlint-cli2"] = { prepend_args = { "--config", config } },
+        ["markdownlint-cli2"] = { prepend_args = { "--config", base_config_path } },
       },
     },
   },
@@ -17,7 +15,7 @@ return {
     optional = true,
     opts = {
       formatters = {
-        ["markdownlint-cli2"] = { prepend_args = { "--config", config } },
+        ["markdownlint-cli2"] = { prepend_args = { "--config", base_config_path } },
       },
     },
   },
