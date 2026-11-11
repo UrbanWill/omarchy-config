@@ -47,4 +47,4 @@ async-backend = epoll
 keybind = super+a=select_all
 
 # Slightly see-through background; text stays solid
-background-opacity = 0.96
+background-opacity = 0.98
