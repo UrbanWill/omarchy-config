@@ -64,12 +64,20 @@
               "zone": "Asia/Bangkok"
             },
             {
+              "name": "Rio de Janeiro",
+              "zone": "America/Sao_Paulo"
+            },
+            {
               "name": "Los Angeles",
               "zone": "America/Los_Angeles"
             },
             {
-              "name": "Rio de Janeiro",
-              "zone": "America/Sao_Paulo"
+              "name": "Brisbane",
+              "zone": "Australia/Brisbane"
+            },
+            {
+              "name": "Seoul",
+              "zone": "Asia/Seoul"
             }
           ]
         },
