@@ -19,5 +19,12 @@
     "key": "ctrl+u",
     "command": "deleteAllLeft",
     "when": "editorTextFocus && !editorReadonly"
+  },
+  // CTRL + K belongs to hypr/line-editing.lua, so the default CTRL + K V chord
+  // never arrives. Open Markdown Preview Enhanced with CTRL + ALT + M instead.
+  {
+    "key": "ctrl+alt+m",
+    "command": "markdown-preview-enhanced.openPreviewToTheSide",
+    "when": "editorLangId == markdown"
   }
 ]
