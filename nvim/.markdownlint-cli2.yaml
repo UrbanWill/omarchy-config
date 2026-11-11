@@ -1,0 +1,7 @@
+# Base markdownlint config for every Markdown file edited in Neovim.
+# A project's own markdownlint config still applies on top of this.
+config:
+  # Line length: prose paragraphs are written one per line.
+  MD013: false
+  # Hard tabs: code blocks and diagrams indent with tabs.
+  MD010: false
