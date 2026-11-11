@@ -1,7 +1,6 @@
 -- Options are automatically loaded before lazy.nvim startup.
 require("config.remote_clipboard").setup()
 
-vim.opt.relativenumber = false
 vim.g.autoformat = false
 
 -- TypeScript 7's native server; the work repos pin TS 7, which vtsls can't load
