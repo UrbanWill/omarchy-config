@@ -60,3 +60,7 @@ keybind = super+a=select_all
 
 # Slightly see-through background; text stays solid
 background-opacity = 0.98
+
+# Per-machine overrides, loaded last if present. local.conf is not tracked by
+# git, so each machine keeps its own (e.g. disabling the shader on a VM).
+config-file = ?"local.conf"
