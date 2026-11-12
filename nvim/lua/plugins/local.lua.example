@@ -14,7 +14,7 @@
 --   DURATION 0.2s, ease-out  -> fast leading edge, tail settles in ~0.2s
 --   TRAIL_SIZE 0.8           -> leading corners jump almost instantly
 --   no overshoot             -> high damping
---   THRESHOLD 1.5 heights    -> no trail for tiny moves (single j/k, short h/l)
+--   (unlike the shader, every move smears, even single j/k/h/l steps)
 --   TRAIL_COLOR = cursor     -> smear uses the cursor color (default)
 return {
   {
@@ -28,11 +28,10 @@ return {
       distance_stop_animating = 0.5,
       time_interval = 7,
 
-      -- A move skips the smear only when it is under BOTH distances, so single
-      -- j/k and short h/l/w moves stay plain while longer jumps along a line
-      -- (0, $, f, b over a long word) smear horizontally.
-      min_vertical_distance_smear = 2,
-      min_horizontal_distance_smear = 4,
+      -- A move skips the smear only when it is under BOTH distances; at 1,
+      -- every move of at least one row or column smears, even single j/k/h/l.
+      min_vertical_distance_smear = 1,
+      min_horizontal_distance_smear = 1,
       smear_insert_mode = true,
 
       -- Ghostty draws the legacy computing block glyphs itself, which gives
