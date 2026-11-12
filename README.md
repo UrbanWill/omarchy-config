@@ -141,6 +141,12 @@ hyprctl reload && hyprctl configerrors
 - **What:** installed with `omarchy install terminal ghostty`, which makes it the terminal for `SUPER + Return` and every terminal Omarchy opens. `ghostty/config` is Omarchy's default plus `SUPER + A` to select all (then `SUPER + C` copies) and a 96% opaque background (`background-opacity`). foot stays installed, and its config is kept.
 - **Check:** `SUPER + Return`, then `hyprctl activewindow | grep class` shows `com.mitchellh.ghostty`.
 
+### Ghostty cursor shader
+- **Files:** `ghostty/config`, `ghostty/shaders/`
+- **What:** the `cursor_warp` shader from [sahaj-b/ghostty-cursor-shaders](https://github.com/sahaj-b/ghostty-cursor-shaders) (MIT, license copied alongside), set with `custom-shader` and `custom-shader-animation = true`. The file is copied into this repo rather than cloned or added as a submodule, so a `git pull` is all another machine needs.
+- **Trade-offs:** upstream fixes don't arrive on their own. To update, clone the repo and copy the `.glsl` over. To try another shader, copy it into `ghostty/shaders/` and change the `custom-shader` line.
+- **Check:** open a new Ghostty window and move the cursor; it leaves a warp trail.
+
 ### zsh
 - **Files:** `zsh/zshrc`
 - **What:** zsh from `omarchy-zsh` (`omarchy-setup-zsh`), plus:
