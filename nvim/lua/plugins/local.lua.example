@@ -1,0 +1,43 @@
+-- Template for ~/.config/nvim/lua/plugins/local.lua, the per-machine Neovim
+-- plugins file. local.lua is not tracked in git; lazy.nvim loads it like any
+-- other plugin spec, while this .example file is ignored.
+--
+-- To use it:
+--   cp ~/.config/nvim/lua/plugins/local.lua.example ~/.config/nvim/lua/plugins/local.lua
+--   restart Neovim
+--
+-- Per-machine Neovim plugins for this machine only (not tracked by git).
+--
+-- Ghostty's cursor_warp shader is off on this VM (see ghostty/local.conf), so
+-- smear-cursor.nvim draws a similar trail inside Neovim instead. The values
+-- below mirror the shader's settings:
+--   DURATION 0.2s, ease-out  -> fast leading edge, tail settles in ~0.2s
+--   TRAIL_SIZE 0.8           -> leading corners jump almost instantly
+--   no overshoot             -> high damping
+--   THRESHOLD 1.5 heights    -> no trail for tiny moves (single j/k, short h/l)
+--   TRAIL_COLOR = cursor     -> smear uses the cursor color (default)
+return {
+  {
+    "sphamba/smear-cursor.nvim",
+    event = "VeryLazy",
+    opts = {
+      stiffness = 0.85,
+      trailing_stiffness = 0.3,
+      trailing_exponent = 3,
+      damping = 0.95,
+      distance_stop_animating = 0.5,
+      time_interval = 7,
+
+      -- A move skips the smear only when it is under BOTH distances, so single
+      -- j/k and short h/l/w moves stay plain while longer jumps along a line
+      -- (0, $, f, b over a long word) smear horizontally.
+      min_vertical_distance_smear = 2,
+      min_horizontal_distance_smear = 4,
+      smear_insert_mode = true,
+
+      -- Ghostty draws the legacy computing block glyphs itself, which gives
+      -- the smear smoother, sub-cell edges.
+      legacy_computing_symbols_support = true,
+    },
+  },
+}
