@@ -19,6 +19,10 @@ gtk-toolbar-style = flat
 cursor-style = "block"
 cursor-style-blink = false
 
+# Cursor shader
+custom-shader = shaders/cursor_warp.glsl
+custom-shader-animation = true
+
 # Cursor styling, sudo and SSH session terminfo
 # (all shell integration options must be passed together)
 # ssh-terminfo installs Ghostty's terminfo on hosts that lack it, so they get xterm-ghostty, not xterm-256color.
