@@ -12,6 +12,7 @@ return {
   opts = {
     options = {
       numbers = "ordinal",
+      indicator = { style = "underline" },
     },
   },
 }
