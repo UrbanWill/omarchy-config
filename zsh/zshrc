@@ -16,8 +16,23 @@
 # Put ~/.local/bin on PATH (was in ~/.zshrc before omarchy-setup-zsh replaced it)
 [[ -f "$HOME/.local/bin/env" ]] && . "$HOME/.local/bin/env"
 
-# Gray suggestions from history; → accepts
+# Suggestions from history; → accepts
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# The default suggestion color (palette 8) is too dim on most themes. Mix 60% of the
+# theme's foreground into its background instead; new shells pick up theme changes.
+() {
+  setopt local_options extended_glob
+  local colors=~/.local/state/omarchy/current/theme/colors.toml bg fg out i
+  [[ -r $colors ]] || return
+  bg=${${(M)${(f)"$(<$colors)"}:#background = *}#*\#}; bg=${bg%\"}
+  fg=${${(M)${(f)"$(<$colors)"}:#foreground = *}#*\#}; fg=${fg%\"}
+  [[ $bg == [[:xdigit:]](#c6) && $fg == [[:xdigit:]](#c6) ]] || return
+  for i in 1 3 5; do
+    out+=${(l:2::0:)$(( [##16] (16#${bg[i,i+1]} * 4 + 16#${fg[i,i+1]} * 6) / 10 ))}
+  done
+  ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#${(L)out}"
+}
 
 # Line-editing keys (CTRL + U, CTRL + Backspace, CTRL + Delete, redo), shared with the Mac mirror
 source ~/.config/zsh/keys.zsh

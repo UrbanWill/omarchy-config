@@ -151,6 +151,7 @@ hyprctl reload && hyprctl configerrors
 - **Files:** `zsh/zshrc`
 - **What:** zsh from `omarchy-zsh` (`omarchy-setup-zsh`), plus:
   - gray autosuggestions from history (`zsh-autosuggestions` package), `→` accepts
+  - suggestions drawn in a mix of 60% of the theme's foreground and 40% of its background, read from the current theme's `colors.toml` when a shell starts (the plugin's default, palette 8, is about 2.8:1 on dark themes; the mix is about 4.8:1). A theme switch reaches new shells only. To change the brightness, edit the `* 4` / `* 6` weights, which must add up to 10
   - `CTRL + U` deletes only before the cursor, like bash and macOS (zsh's default deletes the whole line)
   - `~/.local/bin` on `PATH`
   - `t3gui` opens the T3 Code desktop app on this machine's screen, also from an SSH session, so the app's own server is the only one running
