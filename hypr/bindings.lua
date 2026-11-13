@@ -64,15 +64,13 @@ o.bind("SUPER + V", "Universal paste (images too in terminals)", super_v)
 hl.unbind("SUPER + SHIFT + S") -- was: Google Maps
 o.bind("SUPER + SHIFT + S", "Screenshot", "omarchy-capture-screenshot")
 
--- Dictation keys from before Alt + Space and Right Alt became the defaults.
--- Remove these lines to give the keys back to applications.
--- Unbind first: older Omarchy binds these keys itself, and a second bind would fire twice.
-if o.dictation_installed and o.dictation_installed() then
-  hl.unbind("SUPER + CTRL + X")
-  hl.unbind("F9")
-  o.bind("SUPER + CTRL + X", "Toggle dictation", "omarchy-dictation toggle")
-  o.bind_hold("F9", "Start dictation (push-to-talk)", "omarchy-dictation start", "Stop dictation (push-to-talk)", "omarchy-dictation stop")
-end
+-- Dictation keys disabled: the only mic is the Bluetooth headset, and recording
+-- from it switches to HFP, which fails on this AX200 and stalls YouTube audio.
+-- Unbinds Omarchy's defaults (Alt + Space, Right Alt) and older ones (Super + Ctrl + X, F9).
+hl.unbind("ALT + SPACE")
+hl.unbind("ALT + Alt_R")
+hl.unbind("SUPER + CTRL + X")
+hl.unbind("F9")
 
 -- With both Dell monitors connected, Super + 1-5 go to the left monitor's
 -- workspaces 1-5 and Super + 6-0 to the right monitor's workspaces 1-5, whichever
