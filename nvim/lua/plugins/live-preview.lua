@@ -28,6 +28,10 @@ return {
     build = function(plugin)
       replace_bundled_mermaid(plugin.dir)
     end,
+    config = function()
+      -- Serve from the file's own directory, so files outside Neovim's cwd don't 404.
+      require("livepreview.config").set({ dynamic_root = true })
+    end,
     keys = {
       { "<leader>cp", "<cmd>LivePreview start<cr>", ft = "markdown", desc = "Markdown Preview" },
     },
