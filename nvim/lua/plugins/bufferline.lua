@@ -23,10 +23,10 @@ return {
       -- apply the colors below even with themes (e.g. tokyonight) that ship their own tab bar colors
       themable = false,
     })
-    -- A function, so bufferline works it out again on every colorscheme change.
+    -- A function, to get the names of every *_selected group from bufferline's defaults.
     local base = opts.highlights
     opts.highlights = function(defaults)
-      local hls = vim.tbl_deep_extend("force", defaults.highlights, type(base) == "function" and base(defaults) or base or {})
+      local hls = vim.deepcopy(type(base) == "function" and base(defaults) or base or {})
       -- The current tab stands out as in Zed: every part of it (name, number, icon, close button,
       -- edges…) sits on a tint, the current-line highlight's color. Other tabs stay in muted text.
       for name in pairs(defaults.highlights) do
