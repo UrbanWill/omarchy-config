@@ -35,6 +35,47 @@ end
 plain_code_styles()
 vim.api.nvim_create_autocmd("ColorScheme", { callback = plain_code_styles })
 
+-- A line at the top of each file window with the file's path from the project root
+-- (e.g. "crates/chain/src/lib.rs"), like Zed. Set per window, so the file tree, terminals
+-- and other special windows don't get an empty bar.
+local function update_winbar(win)
+  local buf = vim.api.nvim_win_get_buf(win)
+  local name = vim.api.nvim_buf_get_name(buf)
+  local is_file = vim.bo[buf].buftype == "" and name ~= "" and vim.api.nvim_win_get_config(win).relative == ""
+  vim.wo[win].winbar = is_file and " " .. vim.fn.fnamemodify(name, ":~:."):gsub("%%", "%%%%") or ""
+end
+vim.api.nvim_create_autocmd({ "BufWinEnter", "BufFilePost" }, {
+  callback = function()
+    update_winbar(vim.api.nvim_get_current_win())
+  end,
+})
+local function update_all_winbars()
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    update_winbar(win)
+  end
+end
+-- this file loads after startup, so cover a file opened from the command line (`nvim lib.rs`)
+update_all_winbars()
+-- Faded like Zed's path: halfway between the theme's text and comment colors, no background.
+local function winbar_colors()
+  local text = vim.api.nvim_get_hl(0, { name = "Normal", link = false }).fg
+  local muted = vim.api.nvim_get_hl(0, { name = "Comment", link = false }).fg
+  if not (text and muted) then
+    return
+  end
+  local mixed = 0
+  for _, shift in ipairs({ 16, 8, 0 }) do
+    local a, b = bit.band(bit.rshift(text, shift), 0xff), bit.band(bit.rshift(muted, shift), 0xff)
+    mixed = mixed + bit.lshift(math.floor((a + b) / 2), shift)
+  end
+  vim.api.nvim_set_hl(0, "WinBar", { fg = mixed })
+  vim.api.nvim_set_hl(0, "WinBarNC", { fg = mixed })
+end
+winbar_colors()
+vim.api.nvim_create_autocmd("ColorScheme", { callback = winbar_colors })
+-- paths are relative to the working directory, so redo every window when it changes
+vim.api.nvim_create_autocmd("DirChanged", { callback = update_all_winbars })
+
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "rust",
   callback = function() vim.b.autoformat = true end,
