@@ -60,3 +60,7 @@ hl.config({
 -- Find its class with: hyprctl clients
 -- o.transparent_window("my-app")
 -- o.transparent_window("my-app", "0.9 0.85") -- Custom active/inactive opacity.
+
+-- Terminals stay fully opaque, focused or not (Omarchy fades them to 0.985 / 0.96, text included).
+-- Ghostty's own background-opacity leaves just a hint of the background showing through.
+o.window({ tag = "terminal" }, { opacity = "1 1" })

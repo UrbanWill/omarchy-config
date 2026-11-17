@@ -61,8 +61,8 @@ async-backend = epoll
 # SUPER + A (sent by ~/.config/hypr/line-editing.lua) selects all; SUPER + C then copies it
 keybind = super+a=select_all
 
-# Slightly see-through background; text stays solid
-background-opacity = 0.98
+# Almost opaque background; text stays solid
+background-opacity = 0.99
 
 # Per-machine overrides, loaded last if present. local.conf is not tracked by
 # git, so each machine keeps its own (e.g. disabling the shader on a VM).
