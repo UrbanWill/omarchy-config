@@ -1,0 +1,13 @@
+/* currentColor is the theme foreground, so this follows Omarchy theme changes. */
+tabbar tab:selected {
+  background-color: color-mix(in srgb, currentColor 22%, transparent);
+  box-shadow: inset 0 -2px currentColor;
+}
+
+tabbar tab:selected:hover {
+  background-color: color-mix(in srgb, currentColor 26%, transparent);
+}
+
+tabbar tab:not(:selected) {
+  color: color-mix(in srgb, currentColor 55%, transparent);
+}

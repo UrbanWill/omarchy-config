@@ -16,6 +16,7 @@ window-padding-balance = true
 confirm-close-surface=false
 resize-overlay = never
 gtk-toolbar-style = flat
+gtk-custom-css = tabs.css
 
 # Cursor styling
 cursor-style = "block"
