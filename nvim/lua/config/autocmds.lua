@@ -9,8 +9,12 @@
 -- Easier-to-read code with any theme: no italics (keywords, comments) and no bold types. Markdown
 -- emphasis keeps its italic, since there it is part of the text. Runs again whenever a colorscheme
 -- loads, so it survives Omarchy theme switches. Linked groups follow their target, so only groups
--- that set their own attributes are changed.
+-- that set their own attributes are changed. Module paths (`bt_domain` in `use bt_domain::…`) take the
+-- plain text color, as in Zed, instead of sharing the `use`/`mod` keyword color some themes give them.
 local function plain_code_styles()
+  local text = { fg = vim.api.nvim_get_hl(0, { name = "Normal", link = false }).fg }
+  vim.api.nvim_set_hl(0, "@module", text)
+  vim.api.nvim_set_hl(0, "@lsp.type.namespace", text)
   for name, hl in pairs(vim.api.nvim_get_hl(0, {})) do
     if not hl.link then
       local is_markup = name:find("^@markup") ~= nil
