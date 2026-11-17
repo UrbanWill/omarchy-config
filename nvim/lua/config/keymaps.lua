@@ -40,3 +40,16 @@ for _, key in ipairs({ "<C-BS>", "<C-h>" }) do
   vim.keymap.set("i", key, "<C-g>u<C-w>", { desc = "Delete previous word" })
   vim.keymap.set("c", key, "<C-w>", { desc = "Delete previous word" })
 end
+
+-- <leader>uh shows or hides inlay hints in every buffer, including ones opened later
+-- (LazyVim's own toggle only covers the current buffer). See lua/plugins/inlay-hints.lua.
+Snacks.toggle({
+  id = "inlay_hints",
+  name = "Inlay Hints",
+  get = function()
+    return vim.lsp.inlay_hint.is_enabled()
+  end,
+  set = function(state)
+    vim.lsp.inlay_hint.enable(state)
+  end,
+}):map("<leader>uh")
