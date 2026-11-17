@@ -5,6 +5,8 @@ config-file = ?"~/.local/state/omarchy/current/theme/ghostty.conf"
 font-family = "JetBrainsMono Nerd Font"
 font-style = Regular
 font-size = 9
+# Extra space between lines, close to Zed's default line height, so dense code is easier to follow line by line
+adjust-cell-height = 20%
 
 # Window
 window-theme = ghostty
