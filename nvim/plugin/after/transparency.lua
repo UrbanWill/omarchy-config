@@ -28,6 +28,9 @@ local groups = {
 	"TelescopeNormal",
 	"TelescopePromptBorder",
 	"TelescopePromptTitle",
+	-- snacks windows: lazygit, the Ctrl+/ terminal, inputs
+	"SnacksNormal",
+	"SnacksNormalNC",
 	-- neotree
 	"NeoTreeNormal",
 	"NeoTreeNormalNC",
