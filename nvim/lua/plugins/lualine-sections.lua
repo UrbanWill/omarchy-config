@@ -2,8 +2,42 @@
 -- Dropped from LazyVim's defaults: the last keys typed, the plugin-update count, line:column and
 -- the clock. Kept, as they only show when they matter: profiler, macro recording, debugger, git diff.
 -- lualine_x is LazyVim's list minus those two entries, so compare it after LazyVim updates.
+--
+-- The status line itself only shows while a terminal window is open (e.g. the Ctrl+/ one), and
+-- the bottom row is gone otherwise. lualine turns it back on (laststatus=3) on load and on every
+-- colorscheme change, so this re-checks after those as well as whenever windows change.
+local function sync_statusline()
+  local has_terminal = false
+  for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+    if vim.bo[vim.api.nvim_win_get_buf(win)].buftype == "terminal" then
+      has_terminal = true
+      break
+    end
+  end
+  local want = has_terminal and 3 or 0
+  if vim.o.laststatus ~= want then
+    vim.o.laststatus = want
+  end
+end
+
 return {
   "nvim-lualine/lualine.nvim",
+  init = function()
+    -- scheduled, so it runs after lualine's own handlers and after a closing window is gone
+    vim.api.nvim_create_autocmd({ "WinEnter", "WinClosed", "BufWinEnter", "TermOpen", "TabEnter", "ColorScheme" }, {
+      callback = function()
+        vim.schedule(sync_statusline)
+      end,
+    })
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "LazyLoad",
+      callback = function(ev)
+        if ev.data == "lualine.nvim" then
+          vim.schedule(sync_statusline)
+        end
+      end,
+    })
+  end,
   opts = function(_, opts)
     local icons = LazyVim.config.icons
     opts.sections.lualine_x = {
