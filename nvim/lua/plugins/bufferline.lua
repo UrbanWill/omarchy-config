@@ -19,12 +19,26 @@ return {
       numbers = "ordinal",
       indicator = { style = "underline" },
       separator_style = "slope",
+      style_preset = require("bufferline").style_preset.no_italic,
+      -- apply the colors below even with themes (e.g. tokyonight) that ship their own tab bar colors
+      themable = false,
     })
-    opts.highlights = vim.tbl_deep_extend("force", opts.highlights or {}, {
+    -- A function, so bufferline works it out again on every colorscheme change.
+    local base = opts.highlights
+    opts.highlights = function(defaults)
+      local hls = vim.tbl_deep_extend("force", defaults.highlights, type(base) == "function" and base(defaults) or base or {})
+      -- The current tab stands out as in Zed: every part of it (name, number, icon, close button,
+      -- edges…) sits on a tint, the current-line highlight's color. Other tabs stay in muted text.
+      for name in pairs(defaults.highlights) do
+        if name:find("_selected$") then
+          hls[name] = vim.tbl_extend("force", hls[name] or {}, { bg = { attribute = "bg", highlight = "CursorLine" } })
+        end
+      end
       -- the current tab's edges, in the underline's color (TabLineSel's background)
-      separator_selected = { fg = { attribute = "bg", highlight = "TabLineSel" } },
+      hls.separator_selected.fg = { attribute = "bg", highlight = "TabLineSel" }
       -- the other tabs' edges, in the muted color of their names (bufferline's own pick is near-black)
-      separator = { fg = { attribute = "fg", highlight = "TabLine" } },
-    })
+      hls.separator = vim.tbl_extend("force", hls.separator or {}, { fg = { attribute = "fg", highlight = "TabLine" } })
+      return hls
+    end
   end,
 }
