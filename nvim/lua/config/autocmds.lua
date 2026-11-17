@@ -6,56 +6,47 @@
 --
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
--- Easier-to-read code with any theme: no italics (keywords, comments) and no bold types. Markdown
--- emphasis keeps its italic, since there it is part of the text. Runs again whenever a colorscheme
--- loads, so it survives Omarchy theme switches. Linked groups follow their target, so only groups
--- that set their own attributes are changed. Module paths (`bt_domain` in `use bt_domain::…`) take the
--- plain text color, as in Zed, instead of sharing the `use`/`mod` keyword color some themes give them.
+
+local function augroup(name)
+  return vim.api.nvim_create_augroup("user_" .. name, {})
+end
+
+-- Easier-to-read code with any theme, reapplied on every colorscheme so it survives Omarchy theme
+-- switches: no italics (markdown emphasis keeps its own), no bold types, and module paths
+-- (`bt_domain` in `use bt_domain::…`) in the plain text color, as in Zed, instead of the keyword color.
 local function plain_code_styles()
-  local text = { fg = vim.api.nvim_get_hl(0, { name = "Normal", link = false }).fg }
-  vim.api.nvim_set_hl(0, "@module", text)
-  vim.api.nvim_set_hl(0, "@lsp.type.namespace", text)
+  local text = vim.api.nvim_get_hl(0, { name = "Normal", link = false }).fg
+  vim.api.nvim_set_hl(0, "@module", { fg = text })
+  vim.api.nvim_set_hl(0, "@lsp.type.namespace", { fg = text })
+  -- linked groups follow their target, so only groups that set their own attributes are touched
   for name, hl in pairs(vim.api.nvim_get_hl(0, {})) do
     if not hl.link then
-      local is_markup = name:find("^@markup") ~= nil
-      local is_type = name == "Type" or name:find("^@type") ~= nil or name:find("^@lsp%.type%.") ~= nil
-      local changed = false
-      if hl.italic and not is_markup then
-        hl.italic, changed = nil, true
+      if hl.italic and not name:find("^@markup") then
+        vim.api.nvim_set_hl(0, name, { italic = false, update = true })
       end
-      if hl.bold and is_type then
-        hl.bold, changed = nil, true
-      end
-      if changed then
-        vim.api.nvim_set_hl(0, name, hl)
+      if hl.bold and (name == "Type" or name:find("^@type") or name:find("^@lsp%.type%.")) then
+        vim.api.nvim_set_hl(0, name, { bold = false, update = true })
       end
     end
   end
 end
 plain_code_styles()
-vim.api.nvim_create_autocmd("ColorScheme", { callback = plain_code_styles })
+vim.api.nvim_create_autocmd("ColorScheme", { group = augroup("plain_code_styles"), callback = plain_code_styles })
 
--- A line at the top of each file window with the file's path from the project root
--- (e.g. "crates/chain/src/lib.rs"), like Zed. Set per window, so the file tree, terminals
--- and other special windows don't get an empty bar.
+-- Each file window gets a line at the top with its path from the project root
+-- ("crates/chain/src/lib.rs"), like Zed. Set per window, so the file tree, terminals and
+-- other special windows don't get an empty bar.
 local function update_winbar(win)
   local buf = vim.api.nvim_win_get_buf(win)
   local name = vim.api.nvim_buf_get_name(buf)
   local is_file = vim.bo[buf].buftype == "" and name ~= "" and vim.api.nvim_win_get_config(win).relative == ""
   vim.wo[win].winbar = is_file and " " .. vim.fn.fnamemodify(name, ":~:."):gsub("%%", "%%%%") or ""
 end
-vim.api.nvim_create_autocmd({ "BufWinEnter", "BufFilePost" }, {
-  callback = function()
-    update_winbar(vim.api.nvim_get_current_win())
-  end,
-})
 local function update_all_winbars()
   for _, win in ipairs(vim.api.nvim_list_wins()) do
     update_winbar(win)
   end
 end
--- this file loads after startup, so cover a file opened from the command line (`nvim lib.rs`)
-update_all_winbars()
 -- Faded like Zed's path: halfway between the theme's text and comment colors, no background.
 local function winbar_colors()
   local text = vim.api.nvim_get_hl(0, { name = "Normal", link = false }).fg
@@ -71,12 +62,22 @@ local function winbar_colors()
   vim.api.nvim_set_hl(0, "WinBar", { fg = mixed })
   vim.api.nvim_set_hl(0, "WinBarNC", { fg = mixed })
 end
+-- windows opened before this file loaded
+update_all_winbars()
 winbar_colors()
-vim.api.nvim_create_autocmd("ColorScheme", { callback = winbar_colors })
--- paths are relative to the working directory, so redo every window when it changes
-vim.api.nvim_create_autocmd("DirChanged", { callback = update_all_winbars })
+local winbar = augroup("winbar")
+vim.api.nvim_create_autocmd({ "BufWinEnter", "BufFilePost" }, {
+  group = winbar,
+  callback = function()
+    update_winbar(vim.api.nvim_get_current_win())
+  end,
+})
+-- paths are relative to the working directory
+vim.api.nvim_create_autocmd("DirChanged", { group = winbar, callback = update_all_winbars })
+vim.api.nvim_create_autocmd("ColorScheme", { group = winbar, callback = winbar_colors })
 
 vim.api.nvim_create_autocmd("FileType", {
+  group = augroup("rust_autoformat"),
   pattern = "rust",
   callback = function() vim.b.autoformat = true end,
 })
@@ -84,6 +85,7 @@ vim.api.nvim_create_autocmd("FileType", {
 -- `nvim .` (Omarchy's `n` with no args) leaves an empty [No Name] buffer behind once neo-tree
 -- takes over the directory; drop it as soon as a real file is opened.
 vim.api.nvim_create_autocmd("BufWinEnter", {
+  group = augroup("drop_empty_buffer"),
   callback = function(args)
     if vim.api.nvim_buf_get_name(args.buf) == "" or vim.bo[args.buf].buftype ~= "" then
       return
