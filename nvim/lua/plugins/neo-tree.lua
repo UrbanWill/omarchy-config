@@ -1,8 +1,12 @@
 -- Show dotfiles and git-ignored files in the tree by default (dimmed). `H` still hides them.
 -- The root shows only the project folder's name ("rust-bittensor-indexer"), as Zed does, not its full path.
+-- 28 columns is about Zed's 240px project panel at 15px JetBrains Mono (LazyVim's default is 40).
 return {
   "nvim-neo-tree/neo-tree.nvim",
   opts = {
+    window = {
+      width = 28,
+    },
     filesystem = {
       filtered_items = {
         visible = true,
