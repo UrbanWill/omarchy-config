@@ -21,3 +21,7 @@ vim.filetype.add({
 -- Terminal tab title: "<project folder> - nvim", e.g. "tokio-lessons - nvim"
 vim.opt.title = true
 vim.opt.titlestring = "%{fnamemodify(getcwd(), ':t')} - nvim"
+
+-- No empty command-line row at the bottom: noice already shows `:` in a popup and messages as
+-- notifications, and the status line is hidden unless a terminal is open (plugins/lualine-sections.lua).
+vim.opt.cmdheight = 0
