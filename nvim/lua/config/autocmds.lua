@@ -6,6 +6,31 @@
 --
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
+-- Easier-to-read code with any theme: no italics (keywords, comments) and no bold types. Markdown
+-- emphasis keeps its italic, since there it is part of the text. Runs again whenever a colorscheme
+-- loads, so it survives Omarchy theme switches. Linked groups follow their target, so only groups
+-- that set their own attributes are changed.
+local function plain_code_styles()
+  for name, hl in pairs(vim.api.nvim_get_hl(0, {})) do
+    if not hl.link then
+      local is_markup = name:find("^@markup") ~= nil
+      local is_type = name == "Type" or name:find("^@type") ~= nil or name:find("^@lsp%.type%.") ~= nil
+      local changed = false
+      if hl.italic and not is_markup then
+        hl.italic, changed = nil, true
+      end
+      if hl.bold and is_type then
+        hl.bold, changed = nil, true
+      end
+      if changed then
+        vim.api.nvim_set_hl(0, name, hl)
+      end
+    end
+  end
+end
+plain_code_styles()
+vim.api.nvim_create_autocmd("ColorScheme", { callback = plain_code_styles })
+
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "rust",
   callback = function() vim.b.autoformat = true end,
