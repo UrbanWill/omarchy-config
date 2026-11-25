@@ -129,3 +129,6 @@ for key = 1, 10 do
   o.rebind("SUPER + SHIFT + " .. code, "Move window to workspace " .. key % 10, move_key(key, true))
   o.rebind("SUPER + SHIFT + ALT + " .. code, "Move window silently to workspace " .. key % 10, move_key(key, false))
 end
+
+-- Activity (btop) under its own app-id so it gets a larger float; see hyprland.lua.
+o.rebind("SUPER + SHIFT + T", "Activity", "omarchy-launch-or-focus-tui --app-id=org.omarchy.activity btop")
