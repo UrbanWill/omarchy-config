@@ -27,3 +27,7 @@ require("default.hypr.toggles")
 
 -- Add any other personal Hyprland configuration below.
 -- o.window("qemu", { workspace = "5" })
+
+-- Android emulator: tiled, its window stretches to the tile and paints the phone
+-- in a corner (and shakes on resize). Float it at its own size instead.
+o.window("^Emulator$", { float = true, center = true })
