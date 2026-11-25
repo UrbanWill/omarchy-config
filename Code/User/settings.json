@@ -178,4 +178,5 @@
   "quantConnect.sync.localAndCloudProjects": "disabled",
   "gitlens.graph.details.location": "auto",
   "gitlens.graph.followTerminal.enabled": false,
+  "security.promptForRemoteFileProtocolHandling": false,
 }
