@@ -130,5 +130,8 @@ for key = 1, 10 do
   o.rebind("SUPER + SHIFT + ALT + " .. code, "Move window silently to workspace " .. key % 10, move_key(key, false))
 end
 
--- Activity (btop) under its own app-id so it gets a larger float; see hyprland.lua.
+-- Activity (btop) needs at least 80x24 cells, and the shared 875x600 float is one
+-- row short at this font size. A size rule can't beat the floating-window tag, so
+-- btop runs under its own app-id, which floats without that tag.
 o.rebind("SUPER + SHIFT + T", "Activity", "omarchy-launch-or-focus-tui --app-id=org.omarchy.activity btop")
+o.window("org.omarchy.activity", { float = true, center = true, size = { 1100, 700 } })

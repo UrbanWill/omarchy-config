@@ -31,8 +31,3 @@ require("default.hypr.toggles")
 -- Android emulator: tiled, its window stretches to the tile and paints the phone
 -- in a corner (and shakes on resize). Float it at its own size instead.
 o.window("^Emulator$", { float = true, center = true })
-
--- btop needs at least 80x24 cells, and the shared 875x600 float is one row short
--- at this font size. Size rules can't beat the floating-window tag, so btop runs
--- under its own app-id (see bindings.lua) and floats without that tag.
-o.window("org.omarchy.activity", { float = true, center = true, size = { 1100, 700 } })
