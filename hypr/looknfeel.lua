@@ -49,8 +49,13 @@
 --   },
 -- })
 
+-- Gaps only between windows, none at the screen edges (Omarchy's default is 5 in, 10 out).
 -- Slightly rounded window corners (Omarchy's default is 0, square).
 hl.config({
+  general = {
+    gaps_in = 5,
+    gaps_out = 0,
+  },
   decoration = {
     rounding = 6,
   },
