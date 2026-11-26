@@ -25,7 +25,7 @@ return {
   -- Not `init`: lazy.nvim replaces a parent spec's `init` instead of merging it, which would drop LazyVim's.
   opts = function(_, opts)
     -- scheduled, so it runs after lualine's setup and handlers, and after a closing window is gone
-    vim.api.nvim_create_autocmd({ "WinEnter", "WinClosed", "BufWinEnter", "TermOpen", "TabEnter", "ColorScheme" }, {
+    vim.api.nvim_create_autocmd({ "WinEnter", "WinClosed", "BufWinEnter", "TermOpen", "TermClose", "TabEnter", "ColorScheme" }, {
       group = vim.api.nvim_create_augroup("user_statusline_with_terminal", {}),
       callback = function()
         vim.schedule(sync_statusline)
