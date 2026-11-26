@@ -59,6 +59,12 @@ hl.config({
   decoration = {
     rounding = 6,
   },
+  -- Grouped windows sit right under their tab bar (Omarchy leaves a 5px gap).
+  group = {
+    groupbar = {
+      indicator_gap = 0,
+    },
+  },
 })
 
 -- Opt another application in to Omarchy's standard transparency.
