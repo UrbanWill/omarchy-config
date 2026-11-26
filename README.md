@@ -190,6 +190,11 @@ hyprctl reload && hyprctl configerrors
 - **Files:** `hypr/looknfeel.lua`
 - **What:** `decoration.rounding = 6` (Omarchy's default is 0, square corners). Bigger numbers are rounder; Omarchy's popped windows use 8.
 
+### Gaps only between windows
+- **Files:** `hypr/looknfeel.lua`
+- **What:** `general.gaps_out = 0` (Omarchy's default is 10), so windows touch the screen edges. `general.gaps_in` stays at Omarchy's 5, which Hyprland applies only to the edges that face another window: side-by-side windows get a vertical gap, stacked windows a horizontal one, and a lone window fills the screen.
+- **Check:** `hyprctl getoption general:gaps_in` shows `5 5 5 5` and `general:gaps_out` shows `0 0 0 0`.
+
 ### Monitor scale written by Omarchy
 - **Files:** `hypr/monitors.lua`
 - **What:** Omarchy's scaling shortcut set the catch-all scale to 1.25 and `GDK_SCALE` to 1. The two Dells keep their explicit scale 1; `GDK_SCALE` 1 renders GTK apps at normal size.
